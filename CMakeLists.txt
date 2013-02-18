@@ -34,4 +34,11 @@ if(CMAKE_CXX_COMPILER_FLAGS)
 endif()
 
 # Core
-include("${OSMAND_ROOT}/core/core.cmake")
+if(EXISTS "${OSMAND_ROOT}/core")
+	include("${OSMAND_ROOT}/core/core.cmake")
+endif()
+
+# Tools
+if(EXISTS "${OSMAND_ROOT}/tools")
+	include("${OSMAND_ROOT}/tools/tools.cmake")
+endif()
