@@ -33,6 +33,11 @@ if(CMAKE_CXX_COMPILER_FLAGS)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_COMPILER_FLAGS}")
 endif()
 
+# Extend modules search path
+if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
+	list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
+endif()
+
 # Core
 if(EXISTS "${OSMAND_ROOT}/core")
 	include("${OSMAND_ROOT}/core/core.cmake")
