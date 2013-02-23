@@ -37,6 +37,9 @@ endif()
 if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
 	list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
 endif()
+if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}/lib/cmake")
+	list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}/lib/cmake")
+endif()
 
 # Core
 if(EXISTS "${OSMAND_ROOT}/core")
