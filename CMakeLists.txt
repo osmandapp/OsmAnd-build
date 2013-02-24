@@ -46,6 +46,11 @@ if(EXISTS "${OSMAND_ROOT}/core")
 	include("${OSMAND_ROOT}/core/core.cmake")
 endif()
 
+# JNI
+if(EXISTS "${OSMAND_ROOT}/jni")
+	include("${OSMAND_ROOT}/jni/jni.cmake")
+endif()
+
 # Tools
 if(EXISTS "${OSMAND_ROOT}/tools")
 	include("${OSMAND_ROOT}/tools/tools.cmake")
