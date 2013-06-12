@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8.7 FATAL_ERROR)
+cmake_policy(SET CMP0020 OLD)
 
 set(OSMAND_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 
@@ -33,12 +34,28 @@ if(CMAKE_CXX_COMPILER_FLAGS)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_COMPILER_FLAGS}")
 endif()
 
-# Extend modules search path
-if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
-	list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
+# OS specific changes
+if(CMAKE_TARGET_OS STREQUAL "linux")
+elseif(CMAKE_TARGET_OS STREQUAL "darwin")
+elseif(CMAKE_TARGET_OS STREQUAL "windows")
+	if(MSVC)
+		add_definitions(-DUNICODE -D_UNICODE)
+	endif()
 endif()
-if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}/lib/cmake")
-	list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}/lib/cmake")
+
+# Don't define min and max macros
+add_definitions(-DNOMINMAX)
+
+# Extend modules search path (Qt)
+if(DEFINED ENV{OSMAND_QT})
+	list(APPEND CMAKE_PREFIX_PATH "$ENV{OSMAND_QT}/lib/cmake")
+else()
+	if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
+		list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
+	endif()
+	if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}/lib/cmake")
+		list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-desktop/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}/lib/cmake")
+	endif()
 endif()
 
 # Core
