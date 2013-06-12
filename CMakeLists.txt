@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.7 FATAL_ERROR)
-cmake_policy(SET CMP0020 OLD)
+if(POLICY CMP0020)
+	cmake_policy(SET CMP0020 OLD)
+endif()
 
 set(OSMAND_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 
