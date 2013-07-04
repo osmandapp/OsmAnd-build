@@ -38,7 +38,7 @@ if(CMAKE_TARGET_OS STREQUAL "linux")
 elseif(CMAKE_TARGET_OS STREQUAL "darwin")
 elseif(CMAKE_TARGET_OS STREQUAL "windows")
 	if(MSVC)
-		add_definitions(-DUNICODE -D_UNICODE)
+		add_definitions(-DUNICODE -D_UNICODE -D_VARIADIC_MAX=10)
 	endif()
 endif()
 
