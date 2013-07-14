@@ -53,9 +53,9 @@ else()
 		set(OSMAND_QT_FLAVOUR "desktop")
 	elseif(CMAKE_TARGET_OS STREQUAL "ios")
 		set(OSMAND_QT_FLAVOUR "ios")
-	else
+	else()
 		message(FATAL_ERROR "Failed to determine Qt flavour")
-	endif
+	endif()
 
 	if(EXISTS "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
 		list(APPEND CMAKE_PREFIX_PATH "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}/lib/cmake")
@@ -70,12 +70,16 @@ if(EXISTS "${OSMAND_ROOT}/core")
 	include("${OSMAND_ROOT}/core/core.cmake")
 endif()
 
-# JNI
-if(EXISTS "${OSMAND_ROOT}/jni")
-	include("${OSMAND_ROOT}/jni/jni.cmake")
+if(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows" OR CMAKE_TARGET_OS STREQUAL "android")
+	# JNI
+	if(EXISTS "${OSMAND_ROOT}/jni")
+		include("${OSMAND_ROOT}/jni/jni.cmake")
+	endif()
 endif()
 
-# Tools
-if(EXISTS "${OSMAND_ROOT}/tools")
-	include("${OSMAND_ROOT}/tools/tools.cmake")
+if(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows")
+	# Tools
+	if(EXISTS "${OSMAND_ROOT}/tools")
+		include("${OSMAND_ROOT}/tools/tools.cmake")
+	endif()
 endif()
