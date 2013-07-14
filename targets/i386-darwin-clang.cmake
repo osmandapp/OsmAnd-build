@@ -4,4 +4,4 @@ set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/Xcode
 set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++)
 set(CMAKE_COMPILER_FAMILY clang)
 set(CMAKE_C_COMPILER_FLAGS "-stdlib=libc++ -arch i386 -mmacosx-version-min=10.7")
-set(CMAKE_CXX_COMPILER_FLAGS "-std=c++0x -stdlib=libc++ -arch i386 -mmacosx-version-min=10.7")
+set(CMAKE_CXX_COMPILER_FLAGS "-std=c++11 -stdlib=libc++ -arch i386 -mmacosx-version-min=10.7")
