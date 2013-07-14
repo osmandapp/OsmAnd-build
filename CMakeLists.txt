@@ -33,6 +33,9 @@ if(CMAKE_CXX_COMPILER_FLAGS)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_COMPILER_FLAGS}")
 endif()
 
+# Declare what target we have
+add_definitions(-DOSMAND_TARGET_OS_${CMAKE_TARGET_OS})
+
 # OS specific changes
 if(CMAKE_TARGET_OS STREQUAL "linux")
 elseif(CMAKE_TARGET_OS STREQUAL "darwin")
