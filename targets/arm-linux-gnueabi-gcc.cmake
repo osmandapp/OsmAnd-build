@@ -1,3 +1,8 @@
+include(Platform/Linux)
+include(Platform/Linux-GNU)
+include(Platform/Linux-GNU-C)
+include(Platform/Linux-GNU-CXX)
+ 
 set(CMAKE_TARGET_OS linux-gnueabi)
 set(CMAKE_TARGET_CPU_ARCH arm)
 set(CMAKE_C_COMPILER arm-linux-gnueabi-gcc-4.7)

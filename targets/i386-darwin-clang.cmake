@@ -1,3 +1,8 @@
+include(Platform/Darwin)
+include(Platform/Darwin-Clang)
+include(Platform/Darwin-Clang-C)
+include(Platform/Darwin-Clang-CXX)
+ 
 set(CMAKE_TARGET_OS darwin)
 set(CMAKE_TARGET_CPU_ARCH i386)
 set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang)
