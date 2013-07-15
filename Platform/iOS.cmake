@@ -25,15 +25,6 @@ set (UNIX True)
 set (APPLE True)
 set (IOS True)
 
-# Force the compilers to gcc for iOS
-include (CMakeForceCompiler)
-CMAKE_FORCE_C_COMPILER (gcc gcc)
-CMAKE_FORCE_CXX_COMPILER (g++ g++)
-
-# Skip the platform compiler checks for cross compiling
-set (CMAKE_CXX_COMPILER_WORKS TRUE)
-set (CMAKE_C_COMPILER_WORKS TRUE)
-
 # All iOS/Darwin specific settings - some may be redundant
 set (CMAKE_SHARED_LIBRARY_PREFIX "lib")
 set (CMAKE_SHARED_LIBRARY_SUFFIX ".dylib")
