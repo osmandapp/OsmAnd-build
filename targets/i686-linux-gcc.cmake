@@ -1,8 +1,3 @@
-include(Platform/Linux)
-include(Platform/Linux-GNU)
-include(Platform/Linux-GNU-C)
-include(Platform/Linux-GNU-CXX)
- 
 set(CMAKE_TARGET_OS linux)
 set(CMAKE_TARGET_CPU_ARCH i686)
 set(CMAKE_C_COMPILER gcc-4.7)
