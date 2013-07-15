@@ -5,6 +5,3 @@ set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/Xco
 set(CMAKE_COMPILER_FAMILY clang)
 set(CMAKE_C_COMPILER_FLAGS "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk -stdlib=libc++ -miphoneos-version-min=5.0 -arch armv7")
 set(CMAKE_CXX_COMPILER_FLAGS "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk -std=c++11 -stdlib=libc++ -miphoneos-version-min=5.0 -arch armv7")
-
-set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos")
-set(CMAKE_OSX_ARCHITECTURES "armv7" CACHE string  "Build architecture for iOS")
