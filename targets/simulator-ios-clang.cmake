@@ -5,3 +5,6 @@ set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/Xco
 set(CMAKE_COMPILER_FAMILY clang)
 set(CMAKE_C_COMPILER_FLAGS "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -stdlib=libc++ -mios-simulator-version-min=5.0 -arch i386")
 set(CMAKE_CXX_COMPILER_FLAGS "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk -std=c++11 -stdlib=libc++ -mios-simulator-version-min=5.0 -arch i386")
+
+set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphonesimulator")
+set(CMAKE_OSX_ARCHITECTURES "i386" CACHE string  "Build architecture for iOS")
