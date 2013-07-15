@@ -36,7 +36,7 @@ endif()
 # Declare what target we have
 add_definitions(-DOSMAND_TARGET_OS_${CMAKE_TARGET_OS})
 
-# OS specific changes
+# Target specific changes
 if(CMAKE_TARGET_OS STREQUAL "linux")
 elseif(CMAKE_TARGET_OS STREQUAL "darwin")
 elseif(CMAKE_TARGET_OS STREQUAL "windows")
@@ -73,15 +73,15 @@ if(EXISTS "${OSMAND_ROOT}/core")
 	include("${OSMAND_ROOT}/core/core.cmake")
 endif()
 
+# JNI is only valid on platforms where Java exists
 if(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows" OR CMAKE_TARGET_OS STREQUAL "android")
-	# JNI
 	if(EXISTS "${OSMAND_ROOT}/jni")
 		include("${OSMAND_ROOT}/jni/jni.cmake")
 	endif()
 endif()
 
+# Tools are only valid on desktop platforms
 if(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows")
-	# Tools
 	if(EXISTS "${OSMAND_ROOT}/tools")
 		include("${OSMAND_ROOT}/tools/tools.cmake")
 	endif()

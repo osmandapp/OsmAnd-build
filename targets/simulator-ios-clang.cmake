@@ -1,20 +1,22 @@
-set(CMAKE_IOS_DEVELOPER_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer")
-set(CMAKE_IOS_SDK_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk")
-
 set(CMAKE_TARGET_OS ios)
 set(CMAKE_TARGET_CPU_ARCH simulator)
+set(CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET FALSE)
+set(CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET TRUE)
 set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang)
 set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++)
 set(CMAKE_COMPILER_FAMILY clang)
-set(CMAKE_C_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -stdlib=libc++ -mios-simulator-version-min=5.0 -arch i386")
-set(CMAKE_CXX_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -std=c++11 -stdlib=libc++ -mios-simulator-version-min=5.0 -arch i386")
+set(CMAKE_C_COMPILER_FLAGS "-stdlib=libc++ -mios-simulator-version-min=5.0")
+set(CMAKE_CXX_COMPILER_FLAGS "-std=c++11 -stdlib=libc++ -mios-simulator-version-min=5.0 -headerpad_max_install_names -fvisibility=hidden -fvisibility-inlines-hidden")
 
-set(CMAKE_C_FLAGS "")
-set(CMAKE_CXX_FLAGS "-headerpad_max_install_names -fvisibility=hidden -fvisibility-inlines-hidden")
+# Mark that compiler is ok, since iOS will fail these tests
+set(CMAKE_C_COMPILER_WORKS TRUE)
+set(CMAKE_CXX_COMPILER_WORKS TRUE)
+
+set(CMAKE_IOS_DEVELOPER_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer")
+set(CMAKE_IOS_SDK_ROOT "iPhoneSimulator6.1.sdk")
 
 set(CMAKE_C_LINK_FLAGS "-Wl,-search_paths_first ${CMAKE_C_LINK_FLAGS}")
 set(CMAKE_CXX_LINK_FLAGS "-Wl,-search_paths_first ${CMAKE_CXX_LINK_FLAGS}")
-set(CMAKE_PLATFORM_HAS_INSTALLNAME 1)
 set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS "-dynamiclib -headerpad_max_install_names")
 set(CMAKE_SHARED_MODULE_CREATE_C_FLAGS "-bundle -headerpad_max_install_names")
 set(CMAKE_SHARED_MODULE_LOADER_C_FLAG "-Wl,-bundle_loader,")
@@ -23,12 +25,13 @@ set(CMAKE_FIND_LIBRARY_SUFFIXES ".dylib" ".so" ".a")
 
 set(CMAKE_IOS_DEVELOPER_ROOT ${CMAKE_IOS_DEVELOPER_ROOT} CACHE PATH "Location of iOS Platform")
 set(CMAKE_IOS_SDK_ROOT ${CMAKE_IOS_SDK_ROOT} CACHE PATH "Location of the selected iOS SDK")
+set(CMAKE_OSX_DEPLOYMENT_TARGET "5.0")
 
 # Set the sysroot default to the most recent SDK
-#set (CMAKE_OSX_SYSROOT ${CMAKE_IOS_SDK_ROOT} CACHE PATH "Sysroot used for iOS support")
+set(CMAKE_OSX_SYSROOT ${CMAKE_IOS_SDK_ROOT} CACHE PATH "Sysroot used for iOS support")
 
 set(CMAKE_OSX_ARCHITECTURES "i386" CACHE string "Build architecture for iOS")
-set (CMAKE_FIND_ROOT_PATH ${CMAKE_IOS_DEVELOPER_ROOT} ${CMAKE_IOS_SDK_ROOT} ${CMAKE_PREFIX_PATH} CACHE string "iOS find search path root")
+set(CMAKE_FIND_ROOT_PATH ${CMAKE_IOS_DEVELOPER_ROOT} ${CMAKE_IOS_SDK_ROOT} ${CMAKE_PREFIX_PATH} CACHE string "iOS find search path root")
 
 # default to searching for frameworks first
 set (CMAKE_FIND_FRAMEWORK FIRST)
