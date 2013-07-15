@@ -1,7 +1,7 @@
 set(IOS_PLATFORM OS)
 set(CMAKE_IOS_DEVELOPER_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer")
 set(CMAKE_IOS_SDK_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk")
-include(../Platform/iOS)
+include("${CMAKE_CURRENT_LIST_DIR }/../Platform/iOS.cmake")
 set(CMAKE_OSX_ARCHITECTURES "armv7" CACHE string  "Build architecture for iOS")
 
 set(CMAKE_TARGET_OS ios)
