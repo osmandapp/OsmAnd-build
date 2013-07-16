@@ -7,6 +7,9 @@ set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/Xco
 set(CMAKE_COMPILER_FAMILY clang)
 set(CMAKE_C_COMPILER_FLAGS "-stdlib=libc++ -mios-simulator-version-min=5.0")
 set(CMAKE_CXX_COMPILER_FLAGS "-std=c++11 -stdlib=libc++ -mios-simulator-version-min=5.0 -headerpad_max_install_names -fvisibility=hidden -fvisibility-inlines-hidden")
+set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
+set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++0x")
+set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
 
 # Mark that compiler is ok, since iOS will fail these tests
 set(CMAKE_C_COMPILER_WORKS TRUE)
