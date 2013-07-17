@@ -25,14 +25,6 @@ if(DEFINED CMAKE_TARGET_CPU_NAME)
 	include("cpu-specific/${CMAKE_TARGET_CPU_NAME}.cmake")
 endif()
 
-# Take CMAKE_*_COMPILER_FLAGS if needed
-if(CMAKE_C_COMPILER_FLAGS)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_COMPILER_FLAGS}")
-endif()
-if(CMAKE_CXX_COMPILER_FLAGS)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_COMPILER_FLAGS}")
-endif()
-
 # Declare what target we have
 add_definitions(-DOSMAND_TARGET_OS_${CMAKE_TARGET_OS})
 

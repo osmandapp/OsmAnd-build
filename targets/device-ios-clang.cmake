@@ -11,8 +11,8 @@ set(CMAKE_CXX_COMPILER ${_CMAKE_CXX_COMPILER})
 set(CMAKE_COMPILER_FAMILY clang)
 execute_process(COMMAND xcodebuild -sdk iphoneos -find-library system OUTPUT_VARIABLE _SDK_SYSTEMLIB)
 string(REPLACE "/usr/lib/libsystem.dylib" "" SDK_ROOT "${_SDK_SYSTEMLIB}")
-set(CMAKE_C_COMPILER_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++")
-set(CMAKE_CXX_COMPILER_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -std=c++11 -stdlib=libc++")
+set(CMAKE_C_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++")
+set(CMAKE_CXX_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -std=c++11 -stdlib=libc++")
 
 set (CMAKE_FIND_FRAMEWORK FIRST)
 set (CMAKE_SYSTEM_FRAMEWORK_PATH
