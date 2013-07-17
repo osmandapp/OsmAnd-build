@@ -12,8 +12,8 @@ set(CMAKE_COMPILER_FAMILY clang)
 execute_process(COMMAND xcodebuild -sdk iphonesimulator -find-library system OUTPUT_VARIABLE _SDK_SYSTEMLIB_PATH)
 string(STRIP "${_SDK_SYSTEMLIB_PATH}" SDK_SYSTEMLIB_PATH)
 string(REPLACE "/usr/lib/libsystem.dylib" "" SDK_ROOT "${SDK_SYSTEMLIB_PATH}")
-set(CMAKE_C_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -stdlib=libc++")
-set(CMAKE_CXX_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -std=c++11 -stdlib=libc++")
+set(CMAKE_COMPILER_C_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -stdlib=libc++")
+set(CMAKE_COMPILER_CXX_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -std=c++11 -stdlib=libc++")
 
 set (CMAKE_FIND_FRAMEWORK FIRST)
 set (CMAKE_SYSTEM_FRAMEWORK_PATH
