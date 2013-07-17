@@ -2,14 +2,13 @@ set(CMAKE_TARGET_OS ios)
 set(CMAKE_TARGET_CPU_ARCH device)
 set(CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET FALSE)
 set(CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET TRUE)
+set(CMAKE_IOS_DEVELOPER_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer")
+set(CMAKE_IOS_SDK_ROOT "${CMAKE_IOS_DEVELOPER_ROOT}/SDKs/iPhoneOS6.1.sdk")
 set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang)
 set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++)
 set(CMAKE_COMPILER_FAMILY clang)
-set(CMAKE_C_COMPILER_FLAGS "-stdlib=libc++")
-set(CMAKE_CXX_COMPILER_FLAGS "-std=c++11 -stdlib=libc++")
-
-set(CMAKE_IOS_DEVELOPER_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer")
-set(CMAKE_IOS_SDK_ROOT "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk")
+set(CMAKE_C_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -stdlib=libc++")
+set(CMAKE_CXX_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -std=c++11 -stdlib=libc++")
 
 set (CMAKE_FIND_FRAMEWORK FIRST)
 set (CMAKE_SYSTEM_FRAMEWORK_PATH
