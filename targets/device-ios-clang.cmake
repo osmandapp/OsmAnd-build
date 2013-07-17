@@ -7,8 +7,8 @@ set(CMAKE_IOS_SDK_ROOT "${CMAKE_IOS_DEVELOPER_ROOT}/SDKs/iPhoneOS6.1.sdk")
 set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang)
 set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++)
 set(CMAKE_COMPILER_FAMILY clang)
-set(CMAKE_C_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -stdlib=libc++")
-set(CMAKE_CXX_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -std=c++11 -stdlib=libc++")
+set(CMAKE_C_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++")
+set(CMAKE_CXX_COMPILER_FLAGS "-isysroot ${CMAKE_IOS_SDK_ROOT} -arch armv7 -arch armv7s -std=c++11 -stdlib=libc++")
 
 set (CMAKE_FIND_FRAMEWORK FIRST)
 set (CMAKE_SYSTEM_FRAMEWORK_PATH
