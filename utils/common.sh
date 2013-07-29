@@ -18,7 +18,7 @@ then
 		release)	CMAKE_BUILD_TYPE="Release"
 					BUILD_TYPE_SUFFIX="release"
 					;;
-		safemode)	CMAKE_BUILD_TYPE="safemode"
+		safemode)	CMAKE_BUILD_TYPE="RelWithDebInfo"
 					BUILD_TYPE_SUFFIX="safemode"
 					;;
 	esac
@@ -26,7 +26,7 @@ fi
 if [ -n "$CMAKE_BUILD_TYPE" ]
 then
 	echo "Building in $CMAKE_BUILD_TYPE mode"
-	CMAKE_BUILD_TYPE="-DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE"
+	CMAKE_BUILD_TYPE="-DCMAKE_BUILD_TYPE:STRING=$CMAKE_BUILD_TYPE"
 	BUILD_TYPE_SUFFIX="-$BUILD_TYPE_SUFFIX"
 fi
 
