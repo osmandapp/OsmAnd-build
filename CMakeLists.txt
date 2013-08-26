@@ -57,7 +57,10 @@ if(CMAKE_TARGET_OS STREQUAL "linux")
 elseif(CMAKE_TARGET_OS STREQUAL "darwin")
 elseif(CMAKE_TARGET_OS STREQUAL "windows")
 	if(MSVC)
-		add_definitions(-DUNICODE -D_UNICODE -D_VARIADIC_MAX=10)
+		add_definitions(-DUNICODE -D_UNICODE -D_VARIADIC_MAX=10 -D__STDC_FORMAT_MACROS)
+		include_directories(AFTER SYSTEM
+			"${OSMAND_ROOT}/core/externals/msinttypes"
+		)
 	endif()
 endif()
 
