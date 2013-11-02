@@ -74,6 +74,10 @@ elseif(CMAKE_TARGET_OS STREQUAL "windows")
 			"${OSMAND_ROOT}/core/externals/msinttypes"
 		)
 	endif()
+elseif(CMAKE_TARGET_OS STREQUAL "qnx")
+	include_directories(AFTER
+		${QNX_TARGET}/usr/include/freetype2
+	)
 endif()
 
 # Don't define min and max macros
