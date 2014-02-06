@@ -16,6 +16,9 @@ execute_process(COMMAND xcodebuild -sdk iphoneos -find-executable clang++ OUTPUT
 string(STRIP "${_SDK_CLANGPP_PATH}" SDK_CLANGPP_PATH)
 set(CMAKE_CXX_COMPILER ${SDK_CLANGPP_PATH})
 
+# Assembler
+set(CMAKE_ASM_COMPILER ${SDK_CLANGPP_PATH})
+
 set(CMAKE_COMPILER_FAMILY clang)
 
 execute_process(COMMAND xcodebuild -sdk iphoneos -find-library system OUTPUT_VARIABLE _SDK_SYSTEMLIB_PATH)
