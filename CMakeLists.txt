@@ -8,7 +8,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OSMAND_OUTPUT_ROOT}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${OSMAND_OUTPUT_ROOT}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${OSMAND_OUTPUT_ROOT}")
 
-# Apply compiler requests
+# Enable languages
+enable_language(C)
+enable_language(CXX)
+enable_language(ASM OPTIONAL)
+
+# Apply compiler flags
 if(DEFINED CMAKE_COMPILER_ASM_FLAGS)
 	set(CMAKE_ASM_FLAGS ${CMAKE_COMPILER_ASM_FLAGS})
 endif()
