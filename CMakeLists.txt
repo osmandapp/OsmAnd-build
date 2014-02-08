@@ -66,8 +66,13 @@ if(DEFINED CMAKE_TARGET_CPU_NAME)
 	include("cpu-specific/${CMAKE_TARGET_CPU_NAME}.cmake")
 endif()
 
-# Declare what target we have
-add_definitions(-DOSMAND_TARGET_OS_${CMAKE_TARGET_OS})
+# Expose target environment to code
+add_definitions(
+	-DOSMAND_TARGET_OS_${CMAKE_TARGET_OS}
+	-DOSMAND_TARGET_CPU_ARCH_${CMAKE_TARGET_CPU_ARCH}
+	-DOSMAND_TARGET_CPU_ARCH_FAMILY_${CMAKE_TARGET_CPU_ARCH_FAMILY}
+	-DOSMAND_COMPILER_FAMILY_${CMAKE_COMPILER_FAMILY}
+)
 
 # Target specific changes
 if(CMAKE_TARGET_OS STREQUAL "linux")
