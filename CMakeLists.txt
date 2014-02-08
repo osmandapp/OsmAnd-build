@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
 
+# Set the global project name
+project("OsmAnd_projects")
+
 set(OSMAND_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 
 # Output paths
