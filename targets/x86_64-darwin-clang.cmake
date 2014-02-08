@@ -10,3 +10,4 @@ set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/Xco
 set(CMAKE_COMPILER_FAMILY clang)
 set(CMAKE_COMPILER_C_FLAGS "-stdlib=libc++ -arch x86_64 -mmacosx-version-min=10.7")
 set(CMAKE_COMPILER_CXX_FLAGS "-std=c++11 -stdlib=libc++ -arch x86_64 -mmacosx-version-min=10.7")
+set(CMAKE_OSX_ARCHITECTURES "x86_64")
