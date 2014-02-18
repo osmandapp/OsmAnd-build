@@ -37,7 +37,7 @@ if(CMAKE_COMPILER_FAMILY STREQUAL "gcc")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined")
 endif()
 
-# For gcc and clang, allow all warnings
+# For gcc and clang, allow all warnings and use proper optimization
 if(CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
 	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -Wall -fPIC")
 	set(CMAKE_ASM_FLAGS_DEBUG "-O0 -g")
@@ -53,6 +53,21 @@ if(CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang
 	set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+endif()
+
+# For MSVC compiler, allow Level3 warnings (except disabled-by-default and Level4, since too noisy)
+if(CMAKE_COMPILER_FAMILY STREQUAL "msvc")
+	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} /W3")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W3")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3")
+endif()
+
+# Tune MSVC compiler
+if(CMAKE_COMPILER_FAMILY STREQUAL "msvc")
+	add_definitions(-DUNICODE -D_UNICODE -D_VARIADIC_MAX=10 -D__STDC_FORMAT_MACROS)
+	include_directories(AFTER SYSTEM
+		"${OSMAND_ROOT}/core/externals/msinttypes"
+	)
 endif()
 
 # Add definitions to mark built type
@@ -85,12 +100,6 @@ add_definitions(
 if(CMAKE_TARGET_OS STREQUAL "linux")
 elseif(CMAKE_TARGET_OS STREQUAL "darwin")
 elseif(CMAKE_TARGET_OS STREQUAL "windows")
-	if(MSVC)
-		add_definitions(-DUNICODE -D_UNICODE -D_VARIADIC_MAX=10 -D__STDC_FORMAT_MACROS)
-		include_directories(AFTER SYSTEM
-			"${OSMAND_ROOT}/core/externals/msinttypes"
-		)
-	endif()
 elseif(CMAKE_TARGET_OS STREQUAL "qnx")
 	include_directories(AFTER
 		${QNX_TARGET}/usr/include/freetype2
