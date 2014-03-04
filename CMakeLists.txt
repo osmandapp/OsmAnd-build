@@ -168,16 +168,6 @@ if(EXISTS "${OSMAND_ROOT}/core")
 	include("${OSMAND_ROOT}/core/core.cmake")
 endif()
 
-# JNI is only valid on platforms where Java exists
-if(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows" OR CMAKE_TARGET_OS STREQUAL "android")
-	#if(EXISTS "${OSMAND_ROOT}/jni")
-	#	include("${OSMAND_ROOT}/jni/jni.cmake")
-	#endif()
-	if(EXISTS "${OSMAND_ROOT}/android/OsmAnd-java/jni.cmake")
-		include("${OSMAND_ROOT}/android/OsmAnd-java/jni.cmake")
-	endif()
-endif()
-
 # Tools are only valid on desktop platforms
 if(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows")
 	if(EXISTS "${OSMAND_ROOT}/tools")
