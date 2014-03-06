@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z "$BASH_VERSION" ]; then
+	exec bash "$0" "$@"
+	exit $?
+fi
+
 OSMAND_TARGET_TOOLCHAIN="-DCMAKE_TOOLCHAIN_FILE=targets/$OSMAND_TARGET.cmake"
 if [ ! -n "$OSMAND_TARGET" ]
 then
