@@ -98,7 +98,7 @@ add_definitions(
 
 # Target specific changes
 if (CMAKE_TARGET_OS STREQUAL "linux")
-elseif (CMAKE_TARGET_OS STREQUAL "darwin")
+elseif (CMAKE_TARGET_OS STREQUAL "macosx")
 elseif (CMAKE_TARGET_OS STREQUAL "windows")
 elseif (CMAKE_TARGET_OS STREQUAL "qnx")
 	include_directories(AFTER
@@ -124,7 +124,7 @@ else()
 	set(OSMAND_EMBEDDED_QT ON)
 
 	# Flavour: desktop, iOS or etc.
-	if (CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows")
+	if (CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "windows")
 		set(OSMAND_QT_FLAVOUR "desktop")
 	elseif (CMAKE_TARGET_OS STREQUAL "ios")
 		set(OSMAND_QT_FLAVOUR "ios")
@@ -169,7 +169,7 @@ if (EXISTS "${OSMAND_ROOT}/core")
 endif()
 
 # Tools are only valid on desktop platforms
-if (CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "darwin" OR CMAKE_TARGET_OS STREQUAL "windows")
+if (CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "windows")
 	if (EXISTS "${OSMAND_ROOT}/tools")
 		include("${OSMAND_ROOT}/tools/tools.cmake")
 	endif()
