@@ -102,6 +102,10 @@ endif()
 # Don't define min and max macros
 add_definitions(-DNOMINMAX)
 
+# Common utilities
+include("${OSMAND_ROOT}/build/utils/common.cmake")
+
+# Qt
 include("${OSMAND_ROOT}/build/qt.cmake")
 
 # Core
