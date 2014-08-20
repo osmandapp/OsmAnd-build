@@ -38,7 +38,7 @@ else()
 		endif()
 		
 		if (EMBEDDED_QT_BUILD_RESULT)
-			message(FATAL_ERROR "Failed to build embedded Qt for ${CMAKE_TARGET_OS}/${CMAKE_COMPILER_FAMILY}/${CMAKE_TARGET_CPU_ARCH}")
+			message(FATAL_ERROR "Failed to build embedded Qt for ${CMAKE_TARGET_OS}/${CMAKE_COMPILER_FAMILY}/${CMAKE_TARGET_CPU_ARCH}: ${EMBEDDED_QT_BUILD_RESULT}")
 		endif()
 	endif()
 
