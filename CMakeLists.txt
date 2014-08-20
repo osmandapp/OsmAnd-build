@@ -58,9 +58,6 @@ endif()
 # Tune MSVC compiler
 if (CMAKE_COMPILER_FAMILY STREQUAL "msvc")
 	add_definitions(-DUNICODE -D_UNICODE -D_VARIADIC_MAX=10 -D__STDC_FORMAT_MACROS)
-	include_directories(AFTER SYSTEM
-		"${OSMAND_ROOT}/core/externals/msinttypes"
-	)
 endif()
 
 # Add definitions to mark built type

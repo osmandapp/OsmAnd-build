@@ -16,7 +16,7 @@ macro(prepare_upstream)
 				RESULT_VARIABLE UPSTREAM_CONFIGURE_FAILED)
 		else()
 			execute_process(
-				COMMAND "configure.sh"
+				COMMAND "./configure.sh"
 				WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
 				RESULT_VARIABLE UPSTREAM_CONFIGURE_FAILED)
 		endif()
