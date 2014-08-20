@@ -7,9 +7,9 @@ set(OSMAND_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 
 # Output paths
 if (CMAKE_TARGET_BUILD_TOOL STREQUAL "msvs" OR CMAKE_TARGET_BUILD_TOOL STREQUAL "makefile")
-	set(OSMAND_OUTPUT_ROOT "${OSMAND_ROOT}/binaries/${CMAKE_TARGET_OS}/${CMAKE_TARGET_CPU_ARCH}/${CMAKE_TARGET_CPU_NAME}/${CMAKE_BUILD_TYPE}")
+	set(OSMAND_OUTPUT_ROOT "${OSMAND_ROOT}/binaries/${CMAKE_TARGET_OS}/${CMAKE_COMPILER_FAMILY}-${CMAKE_TARGET_CPU_ARCH}/${CMAKE_TARGET_CPU_NAME}/${CMAKE_BUILD_TYPE}")
 elseif (CMAKE_TARGET_BUILD_TOOL STREQUAL "xcode")
-	set(OSMAND_OUTPUT_ROOT "${OSMAND_ROOT}/binaries/${CMAKE_TARGET_OS}$(EFFECTIVE_PLATFORM_NAME)")
+	set(OSMAND_OUTPUT_ROOT "${OSMAND_ROOT}/binaries/${CMAKE_TARGET_OS}.${CMAKE_COMPILER_FAMILY}$(EFFECTIVE_PLATFORM_NAME)")
 endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OSMAND_OUTPUT_ROOT}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${OSMAND_OUTPUT_ROOT}")
@@ -37,29 +37,22 @@ if (CMAKE_COMPILER_FAMILY STREQUAL "gcc")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined")
 endif()
 
-# For gcc and clang, allow all warnings and use proper optimization
+# Use proper optimization for gcc and clang
 if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
-	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -Wall -fPIC")
+	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -fPIC")
 	set(CMAKE_ASM_FLAGS_DEBUG "-O0 -g")
 	set(CMAKE_ASM_FLAGS_RELWITHDEBINFO "-O3 -g")
 	set(CMAKE_ASM_FLAGS_RELEASE "-O3")
 
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -fPIC")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 	set(CMAKE_C_FLAGS_DEBUG "-O0 -g")
 	set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O3 -g")
 	set(CMAKE_C_FLAGS_RELEASE "-O3")
 
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 	set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-endif()
-
-# For MSVC compiler, allow Level3 warnings (except disabled-by-default and Level4, since too noisy)
-if (CMAKE_COMPILER_FAMILY STREQUAL "msvc")
-	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} /W3")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W3")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3")
 endif()
 
 # Tune MSVC compiler
@@ -109,59 +102,7 @@ endif()
 # Don't define min and max macros
 add_definitions(-DNOMINMAX)
 
-# Qt selection: external, system or embedded
-if (DEFINED ENV{OSMAND_EXTERNAL_QT})
-	# External
-	set(OSMAND_EXTERNAL_QT ON)
-	message("Using external Qt5: $ENV{OSMAND_EXTERNAL_QT}")
-	list(APPEND CMAKE_PREFIX_PATH "$ENV{OSMAND_EXTERNAL_QT}/lib/cmake")
-elseif (DEFINED ENV{OSMAND_SYSTEM_QT})
-	# System
-	set(OSMAND_SYSTEM_QT ON)
-	message("Using system Qt5.")
-else()
-	# Embedded: shared and static
-	set(OSMAND_EMBEDDED_QT ON)
-
-	# Flavour: desktop, iOS or etc.
-	if (CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "windows")
-		set(OSMAND_QT_FLAVOUR "desktop")
-	elseif (CMAKE_TARGET_OS STREQUAL "ios")
-		set(OSMAND_QT_FLAVOUR "ios")
-	else()
-		message(FATAL_ERROR "Failed to determine Qt flavour")
-	endif()
-
-	# If shared libs are allowed, they need shared Qt
-	if (CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET)
-		if (EXISTS "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}.shared/lib/cmake")
-			set(OSMAND_EMBEDDED_QT_SHARED "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}.shared")
-		elseif (EXISTS "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.shared/lib/cmake")
-			set(OSMAND_EMBEDDED_QT_SHARED "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.shared")
-		endif()
-
-		if (NOT DEFINED OSMAND_EMBEDDED_QT_SHARED)
-			message(FATAL_ERROR "Embedded shared Qt not found")
-		else()
-			message("Using embedded Qt5 (shared): ${OSMAND_EMBEDDED_QT_SHARED}")
-		endif()
-	endif()
-
-	# If static libs are allowed, they need static Qt
-	if (CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET)
-		if (EXISTS "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}.static/lib/cmake")
-			set(OSMAND_EMBEDDED_QT_STATIC "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.${CMAKE_TARGET_CPU_ARCH}.static")
-		elseif (EXISTS "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.static/lib/cmake")
-			set(OSMAND_EMBEDDED_QT_STATIC "${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}/upstream.patched.${CMAKE_TARGET_OS}.static")
-		endif()
-
-		if (NOT DEFINED OSMAND_EMBEDDED_QT_STATIC)
-			message(FATAL_ERROR "Embedded static Qt not found")
-		else()
-			message("Using embedded Qt5 (static): ${OSMAND_EMBEDDED_QT_STATIC}")
-		endif()
-	endif()
-endif()
+include("${OSMAND_ROOT}/build/qt.cmake")
 
 # Core
 if (EXISTS "${OSMAND_ROOT}/core")
