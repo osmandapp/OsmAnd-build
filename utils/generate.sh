@@ -9,11 +9,13 @@ SRCLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Verify environment
 if [[ -z "$OSMAND_TARGET" ]]; then
+	echo "Building for target '${OSMAND_TARGET}'"
 	OSMAND_TARGET_SPECIFICATION="-DOSMAND_TARGET=${OSMAND_TARGET}"
 	if [[ -f "$SRCLOC/../target/${OSMAND_TARGET}.sh" ]]; then
 		source "$SRCLOC/../target/${OSMAND_TARGET}.sh"
 	fi
 elif [[ -z "$OSMAND_CROSSPLATFORM_TARGET" ]]; then
+	echo "Building for cross-platform target '${OSMAND_TARGET}'"
 	OSMAND_TARGET_SPECIFICATION="-DCMAKE_TOOLCHAIN_FILE=targets/${OSMAND_CROSSPLATFORM_TARGET}.cmake"
 else
 	echo "OSMAND_TARGET and OSMAND_CROSSPLATFORM_TARGET is not set - one of them needs to be set"
