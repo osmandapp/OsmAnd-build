@@ -9,7 +9,7 @@ SRCLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Verify environment
 if [[ -n "$OSMAND_TARGET" ]]; then
-	echo "Baking project files target '${OSMAND_TARGET}'"
+	echo "Baking project files for native target '${OSMAND_TARGET}'"
 	OSMAND_TARGET_SPECIFICATION="-DOSMAND_TARGET=${OSMAND_TARGET}"
 	if [[ -f "$SRCLOC/../target/${OSMAND_TARGET}.sh" ]]; then
 		source "$SRCLOC/../target/${OSMAND_TARGET}.sh"

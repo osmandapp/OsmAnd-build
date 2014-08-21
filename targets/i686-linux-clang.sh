@@ -1,2 +1,2 @@
-OSMAND_CC=clang
-OSMAND_CXX=clang++
+export OSMAND_CC=clang
+export OSMAND_CXX=clang++
