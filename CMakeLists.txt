@@ -9,6 +9,8 @@ set(OSMAND_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 if (DEFINED OSMAND_TARGET)
 	message("Using '${OSMAND_TARGET}' target settings")
 	include("${OSMAND_ROOT}/build/targets/${OSMAND_TARGET}.cmake")
+else()
+	message("Using cross-platform target settings from toolchain file '${CMAKE_TOOLCHAIN_FILE}'")
 endif()
 
 # Output paths
