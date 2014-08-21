@@ -68,12 +68,12 @@ fi
 SPECIFIC_CC_COMPILER=""
 if [[ -n "$OSMAND_CC" ]]; then
 	echo "Using specific C compiler: ${OSMAND_CC}"
-	SPECIFIC_CC_COMPILER="CC=${OSMAND_CC}"
+	export CC=$OSMAND_CC
 fi
 SPECIFIC_CXX_COMPILER=""
 if [[ -n "$OSMAND_CXX" ]]; then
 	echo "Using specific C++ compiler: ${OSMAND_CXX}"
-	SPECIFIC_CXX_COMPILER="CXX=${OSMAND_CXX}"
+	export CXX=$OSMAND_CXX
 fi
 
 WORK_ROOT="$SRCLOC/.."
@@ -84,7 +84,7 @@ if [[ -d "$BAKED_DIR" ]]; then
 fi
 mkdir -p "$BAKED_DIR"
 (cd "$BAKED_DIR" && \
-	$SPECIFIC_CC_COMPILER $SPECIFIC_CXX_COMPILER cmake -G "$CMAKE_GENERATOR" \
+	cmake -G "$CMAKE_GENERATOR" \
 		-DCMAKE_TARGET_BUILD_TOOL:STRING=$TARGET_BUILD_TOOL_SUFFIX \
 		$OSMAND_TARGET_TOOLCHAIN \
 		$CMAKE_BUILD_TYPE \
