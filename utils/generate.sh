@@ -11,11 +11,11 @@ SRCLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [[ -n "$OSMAND_TARGET" ]]; then
 	echo "Baking project files for native target '${OSMAND_TARGET}'"
 	OSMAND_TARGET_SPECIFICATION="-DOSMAND_TARGET=${OSMAND_TARGET}"
-	if [[ -f "$SRCLOC/../target/${OSMAND_TARGET}.sh" ]]; then
-		echo "Applying specific settings from 'build/target/${OSMAND_TARGET}.sh'"
-		source "$SRCLOC/../target/${OSMAND_TARGET}.sh"
+	if [[ -f "$SRCLOC/../targets/${OSMAND_TARGET}.sh" ]]; then
+		echo "Applying specific settings from 'build/targets/${OSMAND_TARGET}.sh'"
+		source "$SRCLOC/../targets/${OSMAND_TARGET}.sh"
 	else
-		echo "No specific settings found (should be in 'build/target/${OSMAND_TARGET}.sh')"
+		echo "No specific settings found (should be in 'build/targets/${OSMAND_TARGET}.sh')"
 	fi
 elif [[ -n "$OSMAND_CROSSPLATFORM_TARGET" ]]; then
 	echo "Baking project files for cross-platform target '${OSMAND_TARGET}'"
