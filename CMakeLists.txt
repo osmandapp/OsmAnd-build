@@ -5,6 +5,12 @@ project("OsmAnd_projects")
 
 set(OSMAND_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 
+# Import target settings if specified
+if (DEFINED OSMAND_TARGET)
+	message("Using '${OSMAND_TARGET}' target settings")
+	include("${OSMAND_ROOT}/build/targets/${OSMAND_TARGET}.cmake")
+endif()
+
 # Output paths
 if (CMAKE_TARGET_BUILD_TOOL STREQUAL "msvs" OR CMAKE_TARGET_BUILD_TOOL STREQUAL "makefile")
 	set(OSMAND_OUTPUT_ROOT "${OSMAND_ROOT}/binaries/${CMAKE_TARGET_OS}/${CMAKE_COMPILER_FAMILY}-${CMAKE_TARGET_CPU_ARCH}/${CMAKE_TARGET_CPU_NAME}/${CMAKE_BUILD_TYPE}")
