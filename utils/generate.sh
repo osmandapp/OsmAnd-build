@@ -18,7 +18,7 @@ if [[ -n "$OSMAND_TARGET" ]]; then
 		echo "No specific settings found (should be in 'build/targets/${OSMAND_TARGET}.sh')"
 	fi
 elif [[ -n "$OSMAND_CROSSPLATFORM_TARGET" ]]; then
-	echo "Baking project files for cross-platform target '${OSMAND_TARGET}'"
+	echo "Baking project files for cross-platform target '${OSMAND_CROSSPLATFORM_TARGET}'"
 	OSMAND_TARGET_SPECIFICATION="-DCMAKE_TOOLCHAIN_FILE=targets/${OSMAND_CROSSPLATFORM_TARGET}.cmake"
 else
 	echo "OSMAND_TARGET and OSMAND_CROSSPLATFORM_TARGET is not set - one of them needs to be set"
