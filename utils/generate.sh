@@ -77,6 +77,10 @@ if [[ -n "$OSMAND_CXX" ]]; then
 fi
 
 WORK_ROOT="$SRCLOC/.."
+if [[ "$(uname -a)" =~ Cygwin ]]; then
+	WORK_ROOT=$(cygpath -w "$WORK_ROOT")
+fi
+
 BAKED_DIR=""
 if [[ -n "$OSMAND_TARGET" ]]; then
 	BAKED_DIR="$SRCLOC/../../baked/${TARGET_PREFIX}${OSMAND_TARGET}${CPU_SPECIFIC_SUFFIX}${BUILD_TYPE_SUFFIX}.${TARGET_BUILD_TOOL_SUFFIX}"

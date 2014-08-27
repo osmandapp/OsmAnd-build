@@ -28,17 +28,6 @@ enable_language(C)
 enable_language(CXX)
 enable_language(ASM OPTIONAL)
 
-# Apply compiler flags
-if (DEFINED CMAKE_COMPILER_ASM_FLAGS)
-	set(CMAKE_ASM_FLAGS ${CMAKE_COMPILER_ASM_FLAGS})
-endif()
-if (DEFINED CMAKE_COMPILER_C_FLAGS)
-	set(CMAKE_C_FLAGS ${CMAKE_COMPILER_C_FLAGS})
-endif()
-if (DEFINED CMAKE_COMPILER_CXX_FLAGS)
-	set(CMAKE_CXX_FLAGS ${CMAKE_COMPILER_CXX_FLAGS})
-endif()
-
 # For gcc family, ensure that there are no undefined symbols
 if (CMAKE_COMPILER_FAMILY STREQUAL "gcc")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")

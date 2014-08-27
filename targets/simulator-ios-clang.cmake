@@ -22,9 +22,9 @@ execute_process(COMMAND xcodebuild -sdk iphonesimulator -find-library system OUT
 string(STRIP "${_SDK_SYSTEMLIB_PATH}" SDK_SYSTEMLIB_PATH)
 string(REPLACE "/usr/lib/libsystem.dylib" "" SDK_ROOT "${SDK_SYSTEMLIB_PATH}")
 
-set(CMAKE_COMPILER_ASM_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -stdlib=libc++ -mios-simulator-version-min=6.0")
-set(CMAKE_COMPILER_C_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -stdlib=libc++ -mios-simulator-version-min=6.0")
-set(CMAKE_COMPILER_CXX_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -std=c++11 -stdlib=libc++ -mios-simulator-version-min=6.0")
+set(CMAKE_ASM_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -stdlib=libc++ -mios-simulator-version-min=6.0" CACHE STRING "ASM compiler flags")
+set(CMAKE_C_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -stdlib=libc++ -mios-simulator-version-min=6.0" CACHE STRING "C compiler flags")
+set(CMAKE_CXX_FLAGS "-isysroot ${SDK_ROOT} -arch i386 -std=c++11 -stdlib=libc++ -mios-simulator-version-min=6.0" CACHE STRING "CXX compiler flags")
 
 set(CMAKE_FIND_FRAMEWORK FIRST)
 set(CMAKE_SYSTEM_FRAMEWORK_PATH

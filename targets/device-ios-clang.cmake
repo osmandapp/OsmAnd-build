@@ -22,9 +22,9 @@ execute_process(COMMAND xcodebuild -sdk iphoneos -find-library system OUTPUT_VAR
 string(STRIP "${_SDK_SYSTEMLIB_PATH}" SDK_SYSTEMLIB_PATH)
 string(REPLACE "/usr/lib/libsystem.dylib" "" SDK_ROOT "${SDK_SYSTEMLIB_PATH}")
 
-set(CMAKE_COMPILER_ASM_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++ -miphoneos-version-min=6.0")
-set(CMAKE_COMPILER_C_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++ -miphoneos-version-min=6.0")
-set(CMAKE_COMPILER_CXX_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -std=c++11 -stdlib=libc++ -miphoneos-version-min=6.0")
+set(CMAKE_ASM_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++ -miphoneos-version-min=6.0" CACHE STRING "ASM compiler flags")
+set(CMAKE_C_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++ -miphoneos-version-min=6.0" CACHE STRING "C compiler flags")
+set(CMAKE_CXX_FLAGS "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -std=c++11 -stdlib=libc++ -miphoneos-version-min=6.0" CACHE STRING "CXX compiler flags")
 
 set(CMAKE_FIND_FRAMEWORK FIRST)
 set(CMAKE_SYSTEM_FRAMEWORK_PATH

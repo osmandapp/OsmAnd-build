@@ -9,7 +9,7 @@ SRCLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # By default, 'make' is used
 if [ -z "$OSMAND_BUILD_TOOL" ]; then
-	OSMAND_BUILD_TOOL=makefile
+	OSMAND_BUILD_TOOL=make
 fi
 
 OSMAND_TARGET_PREFIX="$OSMAND_TARGET_PREFIX" OSMAND_TARGET=amd64-linux-clang "$SRCLOC/utils/$OSMAND_BUILD_TOOL.sh" "$@"

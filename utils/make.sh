@@ -7,4 +7,4 @@ if [ -z "$BASH_VERSION" ]; then
 fi
 SRCLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-TARGET_BUILD_TOOL_SUFFIX=makefile CMAKE_GENERATOR="Unix Makefiles" "$SRCLOC/generate.sh" $*
+TARGET_BUILD_TOOL_SUFFIX=make CMAKE_GENERATOR="Unix Makefiles" "$SRCLOC/generate.sh" $*
