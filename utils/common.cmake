@@ -26,7 +26,7 @@ macro(prepare_upstream_ex UPSTREAM_BASE_PATH UPSTREAM_WAS_CONFIGURED)
 				RESULT_VARIABLE UPSTREAM_CONFIGURE_FAILED)
 		endif()
 		if (UPSTREAM_CONFIGURE_FAILED)
-			message(FATAL_ERROR "Failed to configure upstream: ${UPSTREAM_CONFIGURE_FAILED}")
+			message(FATAL_ERROR "Failed to configure upstream for ${CMAKE_TARGET_OS}/${CMAKE_COMPILER_FAMILY}/${CMAKE_TARGET_CPU_ARCH}: ${UPSTREAM_CONFIGURE_FAILED}")
 		endif()
 		set(${UPSTREAM_WAS_CONFIGURED} 1)
 	else()
@@ -38,4 +38,28 @@ endmacro()
 macro(prepare_upstream)
 	set(UPSTREAM_WAS_CONFIGURED -1)
 	prepare_upstream_ex(${CMAKE_CURRENT_LIST_DIR} UPSTREAM_WAS_CONFIGURED)
+endmacro()
+
+# build_upstream_ex: Checks if upstream build is present and is built at specified path
+macro(build_upstream_ex UPSTREAM_BASE_PATH)
+	if (CMAKE_HOST_WIN32 AND NOT CYGWIN)
+		execute_process(
+			COMMAND cmd /C "build.bat ${CMAKE_TARGET_OS} ${CMAKE_COMPILER_FAMILY} ${CMAKE_TARGET_CPU_ARCH}"
+			WORKING_DIRECTORY "${UPSTREAM_BASE_PATH}"
+			RESULT_VARIABLE UPSTREAM_BUILD_FAILED)
+	else()
+		execute_process(
+			COMMAND ./build.sh "${CMAKE_TARGET_OS}" "${CMAKE_COMPILER_FAMILY}" "${CMAKE_TARGET_CPU_ARCH}"
+			WORKING_DIRECTORY "${UPSTREAM_BASE_PATH}"
+			RESULT_VARIABLE UPSTREAM_BUILD_FAILED)
+	endif()
+
+	if (UPSTREAM_BUILD_FAILED)
+		message(FATAL_ERROR "Failed to build upstream for ${CMAKE_TARGET_OS}/${CMAKE_COMPILER_FAMILY}/${CMAKE_TARGET_CPU_ARCH}: ${UPSTREAM_BUILD_FAILED}")
+	endif()
+endmacro()
+
+# build_upstream: Checks if upstream build is present and is built at current CMakeList directory
+macro(build_upstream)
+	build_upstream_ex(${CMAKE_CURRENT_LIST_DIR})
 endmacro()
