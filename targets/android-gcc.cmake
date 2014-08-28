@@ -33,10 +33,10 @@ else()
 	message(FATAL_ERROR "Unsupported target architecture '${CMAKE_TARGET_CPU_ARCH}'")
 endif()
 set(toolchain_version 4.9)
-set(toolchain_name "${toolchain_name}-${toolchain_version}")
-set(toolchain_path "${ANDROID_NDK}/toolchains/${toolchain_name}")
+set(toolchain_full_name "${toolchain_name}-${toolchain_version}")
+set(toolchain_path "${ANDROID_NDK}/toolchains/${toolchain_full_name}")
 if (NOT EXISTS "${toolchain_path}")
-	message(FATAL_ERROR "Missing ${toolchain_name} toolchain at ${toolchain_path}")
+	message(FATAL_ERROR "Missing ${toolchain_full_name} toolchain at ${toolchain_path}")
 endif()
 
 # Check target platform version
