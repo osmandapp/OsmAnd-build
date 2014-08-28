@@ -15,8 +15,12 @@ endif()
 
 # Determine toolchain prefix
 set(toolchain_prefix "")
+set(toolchain_lib_subpath "")
 if (CMAKE_TARGET_CPU_ARCH STREQUAL "armeabi" OR CMAKE_TARGET_CPU_ARCH STREQUAL "armeabi-v7a")
 	set(toolchain_prefix "arm-linux-androideabi")
+	if (CMAKE_TARGET_CPU_ARCH STREQUAL "armeabi-v7a")
+		set(toolchain_lib_subpath "/armv7-a")
+	endif()
 elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "mips")
 	set(toolchain_prefix "mipsel-linux-android")
 elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "x86")
@@ -24,7 +28,8 @@ elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "x86")
 else()
 	message(FATAL_ERROR "Unsupported target architecture '${CMAKE_TARGET_CPU_ARCH}'")
 endif()
-set(toolchain_name "${toolchain_prefix}-4.9")
+set(toolchain_version 4.9)
+set(toolchain_name "${toolchain_prefix}-${toolchain_version}")
 set(toolchain_path "${ANDROID_NDK}/toolchains/${toolchain_name}")
 if (NOT EXISTS "${toolchain_path}")
 	message(FATAL_ERROR "Missing ${toolchain_name} toolchain at ${toolchain_path}")
@@ -271,12 +276,13 @@ set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Stati
 set(system_include_dirs
 	"${platform_root}/usr/include"
 	"${ANDROID_NDK}/sources/android/support/include"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/include"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}/include"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/include"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}/include"
 )
 set(system_lib_dirs
 	"${platform_root}/usr/lib"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}"
+	"${toolchain_root}/lib/gcc/${toolchain_prefix}/${toolchain_version}${toolchain_lib_subpath}"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}"
 )
 
 # Configure search paths
