@@ -3,6 +3,12 @@
 # Function: cleanupEnvironment()
 cleanupEnvironment()
 {
+	# ASM
+	if [ -n "$ASM" ]; then
+		echo "ASM was set to '${ASM}', unsetting..."
+		unset ASM
+	fi
+
 	# CC
 	if [ -n "$CC" ]; then
 		echo "CC was set to '${CC}', unsetting..."
