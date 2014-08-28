@@ -1,5 +1,9 @@
 @echo off
 
+REM Perform call to specific function
+call %*
+goto :EOF
+
 REM >>> 'cleanupEnvironment' function
 :cleanupEnvironment
 setlocal
@@ -23,5 +27,5 @@ if not "%CXX%"=="" (
 )
 
 endlocal
-exit /B
+goto :EOF
 REM <<< 'cleanupEnvironment' function
