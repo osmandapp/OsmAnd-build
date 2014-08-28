@@ -6,7 +6,6 @@ goto :EOF
 
 REM >>> 'cleanupEnvironment' function
 :cleanupEnvironment
-setlocal
 
 REM ASM
 if not "%ASM%"=="" (
@@ -26,6 +25,5 @@ if not "%CXX%"=="" (
 	set "CXX="
 )
 
-endlocal
 goto :EOF
 REM <<< 'cleanupEnvironment' function
