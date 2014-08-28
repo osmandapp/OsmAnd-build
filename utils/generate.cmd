@@ -76,12 +76,12 @@ if exist "%BAKED_DIR%" (
 	rmdir /S /Q "%BAKED_DIR%"
 )
 mkdir "%BAKED_DIR%"
-pushd %BAKED_DIR% &&^
+pushd %BAKED_DIR% && (^
 cmake -G "%CMAKE_GENERATOR%" ^
 	-DCMAKE_TARGET_BUILD_TOOL:STRING=%TARGET_BUILD_TOOL_SUFFIX% ^
 	%OSMAND_TARGET_SPECIFICATION% ^
 	%CMAKE_BUILD_TYPE% ^
 	%OSMAND_CPU_SPECIFIC_DEFINE% ^
-	"%WORK_ROOT%" & popd
+	"%WORK_ROOT%" & popd )
 		
 endlocal
