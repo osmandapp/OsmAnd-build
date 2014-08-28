@@ -270,16 +270,22 @@ set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS}" CACHE STRING "Modul
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}" CACHE STRING "Shared linker flags")
 set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Static linker flags" )
 
-# Configure search paths
-set(CMAKE_SYSTEM_LIBRARY_PATH
-	"${platform_root}/usr/lib"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}"
-)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-
-set(CMAKE_SYSTEM_INCLUDE_PATH
+# Collect paths
+set(system_include_dirs
 	"${platform_root}/usr/include"
 	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/include"
 	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}/include"
 )
+set(system_lib_dirs
+	"${platform_root}/usr/lib"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}"
+)
+
+# Configure search paths
+include_directories(SYSTEM ${system_include_dirs})
+set(CMAKE_SYSTEM_INCLUDE_PATH ${system_include_dirs})
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+link_directories(${system_lib_dirs})
+set(CMAKE_SYSTEM_LIBRARY_PATH ${system_lib_dirs})
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
