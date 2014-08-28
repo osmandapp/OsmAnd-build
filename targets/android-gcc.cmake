@@ -273,6 +273,7 @@ set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Stati
 # Collect paths
 set(system_include_dirs
 	"${platform_root}/usr/include"
+	"${ANDROID_NDK}/sources/android/support/include"
 	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/include"
 	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/4.9/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}/include"
 )
