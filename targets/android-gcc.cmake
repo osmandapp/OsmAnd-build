@@ -86,7 +86,7 @@ set(CMAKE_RANLIB "${toolchain_root}/bin/${toolchain_prefix}-ranlib${exe_host_ext
 # Configure flags
 set(CMAKE_ASM_FLAGS "--sysroot=${platform_root}")
 set(CMAKE_C_FLAGS "--sysroot=${platform_root}")
-set(CMAKE_CXX_FLAGS "--sysroot=${platform_root}")
+set(CMAKE_CXX_FLAGS "--sysroot=${platform_root} -std=c++11")
 set(CMAKE_EXE_LINKER_FLAGS "--sysroot=${platform_root}")
 set(CMAKE_MODULE_LINKER_FLAGS "--sysroot=${platform_root}")
 set(CMAKE_SHARED_LINKER_FLAGS "--sysroot=${platform_root}")
