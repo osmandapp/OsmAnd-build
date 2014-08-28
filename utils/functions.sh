@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# Function: cleanupEnvironment()
+cleanUpstream()
+{
+	# CC
+	if [ -n "$CC" ]; then
+		echo "CC was set to '${CC}', unsetting..."
+		unset CC
+	fi
+	
+	# CXX
+	if [ -n "$CXX" ]; then
+		echo "CXX was set to '${CXX}', unsetting..."
+		unset CXX
+	fi
+}
+export -f cleanupEnvironment
+
 # Function: cleanUpstream(location)
 cleanUpstream()
 {
