@@ -65,12 +65,10 @@ if [ -n "$OSMAND_TARGET_PREFIX" ]; then
 fi
 
 # Check for specific compiler selected
-SPECIFIC_CC_COMPILER=""
 if [[ -n "$OSMAND_CC" ]]; then
 	echo "Using specific C compiler: ${OSMAND_CC}"
 	export CC=$OSMAND_CC
 fi
-SPECIFIC_CXX_COMPILER=""
 if [[ -n "$OSMAND_CXX" ]]; then
 	echo "Using specific C++ compiler: ${OSMAND_CXX}"
 	export CXX=$OSMAND_CXX
