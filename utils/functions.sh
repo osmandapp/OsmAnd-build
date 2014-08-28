@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Function: cleanupEnvironment()
-cleanUpstream()
+cleanupEnvironment()
 {
 	# CC
 	if [ -n "$CC" ]; then
