@@ -104,6 +104,11 @@ include("${OSMAND_ROOT}/build/utils/common.cmake")
 # Qt
 include("${OSMAND_ROOT}/build/qt.cmake")
 
+# Target extras
+if (EXISTS "${OSMAND_ROOT}/build/extras/${CMAKE_TARGET_OS}.cmake")
+	include("${OSMAND_ROOT}/build/extras/${CMAKE_TARGET_OS}.cmake")
+endif()
+
 # Core
 if (EXISTS "${OSMAND_ROOT}/core")
 	include("${OSMAND_ROOT}/core/core.cmake")
