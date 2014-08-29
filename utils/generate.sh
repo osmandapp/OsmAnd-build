@@ -79,13 +79,14 @@ if [[ "$(uname -a)" =~ Cygwin ]]; then
 	WORK_ROOT=$(cygpath -w "$WORK_ROOT")
 fi
 
-BAKED_DIR=""
+BAKED_NAME=""
 if [[ -n "$OSMAND_TARGET" ]]; then
-	BAKED_DIR="$SRCLOC/../../baked/${TARGET_PREFIX}${OSMAND_TARGET}${CPU_SPECIFIC_SUFFIX}${BUILD_TYPE_SUFFIX}.${TARGET_BUILD_TOOL_SUFFIX}"
+	BAKED_NAME="${TARGET_PREFIX}${OSMAND_TARGET}${CPU_SPECIFIC_SUFFIX}${BUILD_TYPE_SUFFIX}.${TARGET_BUILD_TOOL_SUFFIX}"
 elif [[ -n "$OSMAND_CROSSPLATFORM_TARGET" ]]; then
-	BAKED_DIR="$SRCLOC/../../baked/${TARGET_PREFIX}${OSMAND_CROSSPLATFORM_TARGET}${CPU_SPECIFIC_SUFFIX}${BUILD_TYPE_SUFFIX}.${TARGET_BUILD_TOOL_SUFFIX}"
+	BAKED_NAME="${TARGET_PREFIX}${OSMAND_CROSSPLATFORM_TARGET}${CPU_SPECIFIC_SUFFIX}${BUILD_TYPE_SUFFIX}.${TARGET_BUILD_TOOL_SUFFIX}"
 fi
-echo "Baking project files in $BAKED_DIR"
+echo "Baking project files '${BAKED_NAME}'"
+BAKED_DIR="${SRCLOC}/../../baked/${BAKED_NAME}"
 if [[ -d "$BAKED_DIR" ]]; then
 	rm -rf "$BAKED_DIR"
 fi
@@ -97,3 +98,10 @@ mkdir -p "$BAKED_DIR"
 		$CMAKE_BUILD_TYPE \
 		$OSMAND_CPU_SPECIFIC_DEFINE \
 		"$WORK_ROOT")
+retcode=$?
+if [ $retcode -ne 0 ]; then
+	echo "Failed to bake project files '${BAKED_NAME}' with '$retcode'"
+	rm -rf "$BAKED_DIR"
+	exit $retcode
+fi
+exit 0
