@@ -281,7 +281,7 @@ set(system_include_dirs
 	"${platform_root}/usr/include"
 	"${ANDROID_NDK}/sources/android/support/include"
 	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/include"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}/include"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH}/include"
 )
 set(system_lib_dirs
 	"${platform_root}/usr/lib"
