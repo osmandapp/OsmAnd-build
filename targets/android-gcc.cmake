@@ -286,7 +286,7 @@ set(system_include_dirs
 set(system_lib_dirs
 	"${platform_root}/usr/lib"
 	"${toolchain_root}/lib/gcc/${toolchain_prefix}/${toolchain_version}${toolchain_lib_subpath}"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH_FAMILY}"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH}"
 )
 
 # Configure search paths
