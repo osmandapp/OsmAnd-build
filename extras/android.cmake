@@ -2,7 +2,7 @@
 
 project(android_cpufeatures)
 add_library(android_cpufeatures STATIC
-	"${ANDROID_NDK}/sources/android/cpu-features.c"
+	"${ANDROID_NDK}/sources/android/cpu-features/cpu-features.c"
 )
 target_include_directories(android_cpufeatures
 	PUBLIC
