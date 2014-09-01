@@ -267,17 +267,18 @@ patchUpstream()
 	local externalPath="$( cd "$externalDir" && pwd )"
 	local externalName="$(basename "$externalPath")"
 
-	echo "Looking for '$externalName' patches..."
-
+	echo "Preparing copy for patching..."
 	cp -rfp "$externalPath/upstream.original" "$externalPath/upstream.patched"
+	
+	echo "Looking for '$externalName' patches..."
 	if [ -d "$externalPath/patches" ]; then
 		local patchFiles="$( cd "$externalPath/patches" && ls -1 *.patch | sort)"
 		echo "Found: $patchFiles"
 		echo "Patching '$externalName' located at '$externalPath'..."
 		for patchFile in $patchFiles
 		do
-			echo "Applying "`basename $patchFile`
-			patch --strip=1 --directory="$externalPath/upstream.patched/" --input="$patchFile"
+			echo "Applying $patchFile"
+			patch --strip=1 --directory="$externalPath/upstream.patched/" --input="$externalPath/patches/$patchFile"
 			retcode=$?
 			if [ $retcode -ne 0 ]; then
 				echo "Failed to apply '$patchFile' to upstream, aborting..."
