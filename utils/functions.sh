@@ -271,8 +271,9 @@ patchUpstream()
 
 	cp -rfp "$externalPath/upstream.original" "$externalPath/upstream.patched"
 	if [ -d "$externalPath/patches" ]; then
+		local patchFiles="$( cd "$externalPath/patches" && ls -1 *.patch | sort)"
+		echo "Found: $patchFiles"
 		echo "Patching '$externalName' located at '$externalPath'..."
-		local patchFiles=$(ls -1 "$externalPath"/patches/*.patch | sort)
 		for patchFile in $patchFiles
 		do
 			echo "Applying "`basename $patchFile`
