@@ -4,6 +4,12 @@ set(CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET TRUE)
 set(CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET TRUE)
 set(CMAKE_COMPILER_FAMILY "gcc")
 
+#set(CMAKE_DL_LIBS "dl")
+set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG "-Wl,-rpath,")
+set(CMAKE_SHARED_LIBRARY_RUNTIME_C_FLAG_SEP ":")
+set(CMAKE_SHARED_LIBRARY_RPATH_LINK_C_FLAG "-Wl,-rpath-link,")
+set(CMAKE_SHARED_LIBRARY_SONAME_C_FLAG "-Wl,-soname,")
+
 # Verify environment
 if (NOT DEFINED ENV{ANDROID_NDK})
 	message(FATAL_ERROR "Environment variable ANDROID_NDK is not set")
@@ -79,6 +85,19 @@ if (ndk_host_platform STREQUAL "")
 	message(FATAL_ERROR "Unsupported NDK host platform")
 endif()
 set(toolchain_root "${toolchain_path}/prebuilt/${ndk_host_platform}")
+
+# Collect paths
+set(system_include_dirs
+	"${platform_root}/usr/include"
+	"${ANDROID_NDK}/sources/android/support/include"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/include"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH}/include"
+)
+set(system_lib_dirs
+	"${platform_root}/usr/lib"
+	"${toolchain_root}/lib/gcc/${toolchain_prefix}/${toolchain_version}${toolchain_lib_subpath}"
+	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH}"
+)
 
 # Configure compilers and tools
 set(CMAKE_C_COMPILER "${toolchain_root}/bin/${toolchain_prefix}-gcc${exe_host_extension}")
@@ -275,19 +294,6 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "Executable 
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS}" CACHE STRING "Module linker flags")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}" CACHE STRING "Shared linker flags")
 set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Static linker flags")
-
-# Collect paths
-set(system_include_dirs
-	"${platform_root}/usr/include"
-	"${ANDROID_NDK}/sources/android/support/include"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/include"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH}/include"
-)
-set(system_lib_dirs
-	"${platform_root}/usr/lib"
-	"${toolchain_root}/lib/gcc/${toolchain_prefix}/${toolchain_version}${toolchain_lib_subpath}"
-	"${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${toolchain_version}/libs/${CMAKE_TARGET_CPU_ARCH}"
-)
 
 # Configure search paths
 include_directories(SYSTEM ${system_include_dirs})

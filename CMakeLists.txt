@@ -13,6 +13,10 @@ else()
 	message("Using cross-platform target settings from toolchain file '${CMAKE_TOOLCHAIN_FILE}'")
 endif()
 
+# Don't use RPATH for build or install
+set(CMAKE_SKIP_RPATH ON)
+set(CMAKE_SKIP_INSTALL_RPATH ON)
+
 # Output paths
 if (CMAKE_TARGET_BUILD_TOOL STREQUAL "msvs" OR
 	CMAKE_TARGET_BUILD_TOOL STREQUAL "make" OR
@@ -30,9 +34,10 @@ enable_language(C)
 enable_language(CXX)
 enable_language(ASM OPTIONAL)
 
-# For gcc family, ensure that there are no undefined symbols
-if (CMAKE_COMPILER_FAMILY STREQUAL "gcc")
+# For gcc and clang family, ensure that there are no undefined symbols
+if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
+	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--no-undefined")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined")
 endif()
 
