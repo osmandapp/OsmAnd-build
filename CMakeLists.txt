@@ -35,7 +35,8 @@ enable_language(CXX)
 enable_language(ASM OPTIONAL)
 
 # For gcc and clang family, ensure that there are no undefined symbols
-if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
+if ((CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
+	(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "android"))
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,--no-undefined")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined")
@@ -100,7 +101,7 @@ elseif (CMAKE_TARGET_OS STREQUAL "macosx")
 elseif (CMAKE_TARGET_OS STREQUAL "windows")
 elseif (CMAKE_TARGET_OS STREQUAL "qnx")
 	include_directories(AFTER
-		${QNX_TARGET}/usr/include/freetype2
+		"${QNX_TARGET}/usr/include/freetype2"
 	)
 endif()
 
