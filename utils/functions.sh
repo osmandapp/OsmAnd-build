@@ -260,6 +260,68 @@ prepareUpstreamFromZipArchive()
 }
 export -f prepareUpstreamFromZipArchive
 
+# Function: prepareUpstreamFrom7zArchive(location, url)
+prepareUpstreamFrom7zArchive()
+{
+	local externalDir=$1
+	local externalPath="$( cd "$externalDir" && pwd )"
+	local externalName="$(basename "$externalPath")"
+	local tarUrl=$2
+	
+	echo "Processing '$externalName' in '$externalPath'..."
+
+	# Check if needs reconfiguring
+	if [ -f "$externalPath/stamp" ]; then
+		echo "Checking '$externalName'..."
+		local lastStamp=""
+		if [ -f "$externalPath/.stamp" ]; then
+			lastStamp=$(cat "$externalPath/.stamp")
+		fi
+		local currentStamp=$(cat "$externalPath/stamp")
+		echo "Last stamp:    "$lastStamp
+		echo "Current stamp: "$currentStamp
+		if [ "$lastStamp" != "$currentStamp" ]; then
+			echo "Stamps differ, will clean external '$externalName'..."
+			cleanUpstream "$externalPath"
+			cp "$externalPath/stamp" "$externalPath/.stamp"
+		fi
+	fi
+	
+	# Check if already configured
+	if [ -d "$externalPath/upstream.patched" ]; then
+		echo "Skipping '$externalName': already configured"
+		exit 0
+	fi
+
+	# If there's no original pack, obtain it
+	if [ ! -f "$externalPath/upstream.pack" ]; then
+		echo "Downloading '$externalName' upstream from $tarUrl ..."
+		curl -L $tarUrl > "$externalPath/upstream.pack"
+		retcode=$?
+		if [ $retcode -ne 0 ]; then
+			echo "Failed to download '$externalName' upstream, aborting..."
+			rm -rf "$externalPath/upstream.pack"
+			exit $retcode
+		fi
+	fi
+
+	# Extract upstream if needed
+	if [ ! -d "$externalPath/upstream.original" ]; then
+		echo "Extracting '$externalName' upstream..."
+		mkdir -p "$externalPath/upstream.tmp"
+		"7z" x -o"$externalPath/upstream.tmp" "$externalPath/upstream.pack"
+		retcode=$?
+		if [ $retcode -ne 0 ]; then
+			echo "Failed to extract '$externalName' upstream, aborting..."
+			rm -rf "$externalPath/upstream.pack" "$externalPath/upstream.tmp" "$externalPath/upstream.original"
+			exit $retcode
+		fi
+		mv "$externalPath/upstream.tmp"/* "$externalPath/upstream.original"
+		rm -rf "$externalPath/upstream.tmp"
+	fi
+}
+export -f prepareUpstreamFrom7zArchive
+
 # Function: patchUpstream(location)
 patchUpstream()
 {
