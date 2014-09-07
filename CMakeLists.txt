@@ -42,17 +42,6 @@ if ((CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "cla
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined")
 endif()
 
-# For gcc and clang compiler families support whole-archive including
-set(CMAKE_WHOLE_ARCHIVE_PREFIX "")
-set(CMAKE_WHOLE_ARCHIVE_SUFFIX "")
-if (CMAKE_TARGET_OS STREQUAL "linux")
-	set(CMAKE_WHOLE_ARCHIVE_PREFIX "-Wl,--whole-archive ")
-	set(CMAKE_WHOLE_ARCHIVE_SUFFIX " -Wl,--no-whole-archive")
-elseif (CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "ios")
-	set(CMAKE_WHOLE_ARCHIVE_PREFIX "-Wl,-force_load,${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/lib")
-	set(CMAKE_WHOLE_ARCHIVE_SUFFIX ".a")
-endif()
-
 # Use proper optimization for gcc and clang
 if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
 	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -fPIC")

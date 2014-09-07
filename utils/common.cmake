@@ -63,3 +63,16 @@ endmacro()
 macro(build_upstream)
 	build_upstream_ex(${CMAKE_CURRENT_LIST_DIR})
 endmacro()
+
+# link_entire_static_library: Links entire static library using method depending on linker used
+macro(link_entire_static_library TARGET_NAME STATIC_LIBRARY_NAME)
+	if (CMAKE_TARGET_OS STREQUAL "linux")
+		target_link_libraries(${TARGET_NAME}
+			"-Wl,--whole-archive" ${STATIC_LIBRARY_NAME} "-Wl,--no-whole-archive"
+		)
+	elseif (CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "ios")
+		target_link_libraries(${TARGET_NAME}
+			"-Wl,-force_load,${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/lib${STATIC_LIBRARY_NAME}.a" ${STATIC_LIBRARY_NAME}
+		)
+	endif()
+endmacro()
