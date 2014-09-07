@@ -43,12 +43,14 @@ if ((CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "cla
 endif()
 
 # For gcc and clang compiler families support whole-archive including
-set(CMAKE_WHOLE_ARCHIVE_BEGIN "")
-set(CMAKE_WHOLE_ARCHIVE_END "")
-if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR
-	CMAKE_COMPILER_FAMILY STREQUAL "clang")
-	set(CMAKE_WHOLE_ARCHIVE_BEGIN "-Wl,--whole-archive")
-	set(CMAKE_WHOLE_ARCHIVE_END "-Wl,--no-whole-archive")
+set(CMAKE_WHOLE_ARCHIVE_PREFIX "")
+set(CMAKE_WHOLE_ARCHIVE_SUFFIX "")
+if (CMAKE_TARGET_OS STREQUAL "linux")
+	set(CMAKE_WHOLE_ARCHIVE_PREFIX "-Wl,--whole-archive ")
+	set(CMAKE_WHOLE_ARCHIVE_SUFFIX " -Wl,--no-whole-archive")
+elseif (CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "ios")
+	set(CMAKE_WHOLE_ARCHIVE_PREFIX "-Wl,-force_load,lib")
+	set(CMAKE_WHOLE_ARCHIVE_SUFFIX ".a")
 endif()
 
 # Use proper optimization for gcc and clang
