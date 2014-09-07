@@ -49,7 +49,7 @@ if (CMAKE_TARGET_OS STREQUAL "linux")
 	set(CMAKE_WHOLE_ARCHIVE_PREFIX "-Wl,--whole-archive ")
 	set(CMAKE_WHOLE_ARCHIVE_SUFFIX " -Wl,--no-whole-archive")
 elseif (CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "ios")
-	set(CMAKE_WHOLE_ARCHIVE_PREFIX "-Wl,-force_load,lib")
+	set(CMAKE_WHOLE_ARCHIVE_PREFIX "-Wl,-force_load,${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/lib")
 	set(CMAKE_WHOLE_ARCHIVE_SUFFIX ".a")
 endif()
 
