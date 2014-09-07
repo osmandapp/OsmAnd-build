@@ -42,6 +42,15 @@ if ((CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "cla
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-undefined")
 endif()
 
+# For gcc and clang compiler families support whole-archive including
+set(CMAKE_WHOLE_ARCHIVE_BEGIN "")
+set(CMAKE_WHOLE_ARCHIVE_END "")
+if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR
+	CMAKE_COMPILER_FAMILY STREQUAL "clang")
+	set(CMAKE_WHOLE_ARCHIVE_BEGIN "-Wl,--whole-archive")
+	set(CMAKE_WHOLE_ARCHIVE_END "-Wl,--no-whole-archive")
+endif()
+
 # Use proper optimization for gcc and clang
 if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
 	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -fPIC")
@@ -122,6 +131,11 @@ endif()
 # Core
 if (EXISTS "${OSMAND_ROOT}/core")
 	include("${OSMAND_ROOT}/core/core.cmake")
+endif()
+
+# Resources
+if (EXISTS "${OSMAND_ROOT}/resources")
+	include("${OSMAND_ROOT}/resources/resources.cmake")
 endif()
 
 # Tools are only valid on desktop platforms
