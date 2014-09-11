@@ -44,8 +44,8 @@ endif()
 
 # For gcc and clang family, by default hide all symbols
 if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
-	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
+	set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -fvisibility=hidden")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
 endif()
 
