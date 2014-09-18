@@ -9,13 +9,69 @@ set(OSMAND_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 if (DEFINED OSMAND_TARGET)
 	message("Using '${OSMAND_TARGET}' target settings")
 	include("${OSMAND_ROOT}/build/targets/${OSMAND_TARGET}.cmake")
-else()
+elseif (DEFINED CMAKE_TOOLCHAIN_FILE)
 	message("Using cross-platform target settings from toolchain file '${CMAKE_TOOLCHAIN_FILE}'")
+else()
+	message("Nor OSMAND_TARGET nor CMAKE_TOOLCHAIN_FILE was set, trying to determine build environment:")
+
+	# CMAKE_TARGET_BUILD_TOOL from CMAKE_BUILD_TOOL
+	if (CMAKE_BUILD_TOOL MATCHES "[^A-Za-z]?make[^A-Za-z]?")
+		set(CMAKE_TARGET_BUILD_TOOL "make")
+	elseif (CMAKE_BUILD_TOOL STREQUAL "[^A-Za-z]?nmake[^A-Za-z]?")
+		set(CMAKE_TARGET_BUILD_TOOL "nmake")
+	elseif (CMAKE_BUILD_TOOL STREQUAL "[^A-Za-z]?xcodebuild[^A-Za-z]?")
+		set(CMAKE_TARGET_BUILD_TOOL "xcode")
+	elseif (CMAKE_BUILD_TOOL STREQUAL "[^A-Za-z]?MSBuild[^A-Za-z]?")
+		set(CMAKE_TARGET_BUILD_TOOL "msvs")
+	else()
+		message(FATAL_ERROR "Unsupported CMAKE_BUILD_TOOL '${CMAKE_BUILD_TOOL}'")
+	endif()
+
+	# CMAKE_TARGET_OS from various variables
+	if (UNIX AND NOT APPLE AND NOT CYGWIN)
+		set(CMAKE_TARGET_OS linux)
+	elseif (APPLE)
+		set(CMAKE_TARGET_OS macosx)
+	elseif ((WIN32 AND NOT CYGWIN) OR MSYS)
+		set(CMAKE_TARGET_OS windows)
+	elseif (CYGWIN)
+		set(CMAKE_TARGET_OS cygwin)
+	else()
+		message(FATAL_ERROR "Unsupported host environment")
+	endif()
+
+	# CMAKE_TARGET_CPU_ARCH
+	set(CMAKE_TARGET_CPU_ARCH i686)
+	
+	# CMAKE_TARGET_CPU_ARCH_FAMILY
+	set(CMAKE_TARGET_CPU_ARCH_FAMILY x86)
+	
+	# CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET and CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET are probably true
+	set(CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET ON)
+	set(CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET ON)
+
+	# CMAKE_COMPILER_FAMILY from CMAKE_CXX_COMPILER_ID
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+		set(CMAKE_COMPILER_FAMILY clang)
+	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		set(CMAKE_COMPILER_FAMILY gcc)
+	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+		set(CMAKE_COMPILER_FAMILY msvc)
+	else()
+		message(FATAL_ERROR "Unsupported compiler ID '${CMAKE_CXX_COMPILER_ID}'")
+	endif()
 endif()
+message("CMAKE_TARGET_OS = ${CMAKE_TARGET_OS}")
+message("CMAKE_TARGET_CPU_ARCH = ${CMAKE_TARGET_CPU_ARCH}")
+message("CMAKE_TARGET_CPU_ARCH_FAMILY = ${CMAKE_TARGET_CPU_ARCH_FAMILY}")
+message("CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET = ${CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET}")
+message("CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET = ${CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET}")
+message("CMAKE_COMPILER_FAMILY = ${CMAKE_COMPILER_FAMILY}")
 
 # Don't use RPATH for build or install
 set(CMAKE_SKIP_RPATH ON)
 set(CMAKE_SKIP_INSTALL_RPATH ON)
+set(CMAKE_MACOSX_RPATH OFF)
 
 # Output paths
 if (CMAKE_TARGET_BUILD_TOOL STREQUAL "msvs" OR
@@ -33,6 +89,11 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${OSMAND_OUTPUT_ROOT}")
 enable_language(C)
 enable_language(CXX)
 enable_language(ASM OPTIONAL)
+
+# For gcc and clang family, use C++11 
+if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
 
 # For gcc and clang family, ensure that there are no undefined symbols
 if ((CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang") AND

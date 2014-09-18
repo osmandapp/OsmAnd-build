@@ -1,2 +1,2 @@
-qtcreator.cmd
-CMakeLists.txt.user*
+# CLion
+/.idea

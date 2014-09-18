@@ -25,7 +25,7 @@ string(REPLACE "/usr/lib/libsystem.dylib" "" SDK_ROOT "${SDK_SYSTEMLIB_PATH}")
 set(_common_flags "-isysroot ${SDK_ROOT} -arch armv7 -arch armv7s -stdlib=libc++ -miphoneos-version-min=6.0 -fPIC")
 set(CMAKE_ASM_FLAGS "${_common_flags}" CACHE STRING "ASM compiler flags")
 set(CMAKE_C_FLAGS "${_common_flags}" CACHE STRING "C compiler flags")
-set(CMAKE_CXX_FLAGS "${_common_flags} -std=c++11" CACHE STRING "CXX compiler flags")
+set(CMAKE_CXX_FLAGS "${_common_flags}" CACHE STRING "CXX compiler flags")
 
 set(CMAKE_FIND_FRAMEWORK FIRST)
 set(CMAKE_SYSTEM_FRAMEWORK_PATH

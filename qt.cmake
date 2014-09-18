@@ -15,7 +15,8 @@ else()
 	# Flavour: desktop, iOS or etc.
 	if (CMAKE_TARGET_OS STREQUAL "linux" OR
 		CMAKE_TARGET_OS STREQUAL "macosx" OR
-		CMAKE_TARGET_OS STREQUAL "windows")
+		CMAKE_TARGET_OS STREQUAL "windows" OR
+		CMAKE_TARGET_OS STREQUAL "cygwin")
 		set(OSMAND_QT_FLAVOUR "desktop")
 	elseif (CMAKE_TARGET_OS STREQUAL "ios")
 		set(OSMAND_QT_FLAVOUR "ios")
