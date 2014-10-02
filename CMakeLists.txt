@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
 # Set the global project name
 project("OsmAnd_projects")
@@ -60,6 +60,21 @@ else()
 	else()
 		message(FATAL_ERROR "Unsupported compiler ID '${CMAKE_CXX_COMPILER_ID}'")
 	endif()
+
+	# Additional settings
+	if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR
+	    CMAKE_COMPILER_FAMILY STREQUAL "clang")
+
+	    if (CMAKE_TARGET_OS STREQUAL "linux" OR
+	        CMAKE_TARGET_OS STREQUAL "windows" OR
+	        CMAKE_TARGET_OS STREQUAL "cygwin")
+	        if (CMAKE_TARGET_CPU_ARCH STREQUAL "i686")
+	            set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -m32")
+                set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+                set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+	        endif()
+        endif()
+	endif()
 endif()
 message("CMAKE_TARGET_OS = ${CMAKE_TARGET_OS}")
 message("CMAKE_TARGET_CPU_ARCH = ${CMAKE_TARGET_CPU_ARCH}")
@@ -92,7 +107,7 @@ enable_language(ASM OPTIONAL)
 
 # For gcc and clang family, use C++11 
 if (CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "clang")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 endif()
 
 # For gcc and clang family, ensure that there are no undefined symbols
@@ -147,9 +162,12 @@ if ((CMAKE_COMPILER_FAMILY STREQUAL "gcc" OR CMAKE_COMPILER_FAMILY STREQUAL "cla
 	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -Wl,-dead_strip")
 endif()
 
-# Tune MSVC compiler
-if (CMAKE_COMPILER_FAMILY STREQUAL "msvc")
-	add_definitions(-DUNICODE -D_UNICODE -D_VARIADIC_MAX=10 -D__STDC_FORMAT_MACROS)
+if ((CMAKE_COMPILER_FAMILY STREQUAL "msvc") OR
+	(CMAKE_TARGET_OS STREQUAL "windows" AND CMAKE_COMPILER_FAMILY STREQUAL "gcc"))
+	add_definitions(-D_VARIADIC_MAX=10 -D__STDC_FORMAT_MACROS)
+endif()
+if (CMAKE_TARGET_OS STREQUAL "windows" AND CMAKE_COMPILER_FAMILY STREQUAL "gcc")
+	add_definitions(-DMINGW_HAS_SECURE_API=1)
 endif()
 
 # Add definitions to mark built type
@@ -186,6 +204,8 @@ add_definitions(
 if (CMAKE_TARGET_OS STREQUAL "linux")
 elseif (CMAKE_TARGET_OS STREQUAL "macosx")
 elseif (CMAKE_TARGET_OS STREQUAL "windows")
+	# Unicode by default, Windows Vista minimum required
+    add_definitions(-DUNICODE -D_UNICODE -DWINVER=0x0600 -D_WIN32_WINNT=0x0600)
 elseif (CMAKE_TARGET_OS STREQUAL "qnx")
 	include_directories(AFTER
 		"${QNX_TARGET}/usr/include/freetype2"
@@ -217,7 +237,9 @@ if (EXISTS "${OSMAND_ROOT}/resources")
 endif()
 
 # Tools are only valid on desktop platforms
-if (CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "windows")
+if (CMAKE_TARGET_OS STREQUAL "linux" OR
+    CMAKE_TARGET_OS STREQUAL "macosx" OR
+    CMAKE_TARGET_OS STREQUAL "windows")
 	if (EXISTS "${OSMAND_ROOT}/tools")
 		include("${OSMAND_ROOT}/tools/tools.cmake")
 	endif()
