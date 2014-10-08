@@ -74,6 +74,13 @@ else()
                 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
 	        endif()
         endif()
+		
+		# Workaround http://stackoverflow.com/questions/20621639/stdendl-crashes-windows-8-compiled-using-mingw
+		if (CMAKE_TARGET_OS STREQUAL "windows")
+			set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libstdc++")
+			set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -static-libstdc++")
+			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libstdc++")
+        endif()
 	endif()
 endif()
 message("CMAKE_TARGET_OS = ${CMAKE_TARGET_OS}")
