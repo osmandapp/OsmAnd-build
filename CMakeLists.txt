@@ -212,14 +212,7 @@ elseif (CMAKE_TARGET_OS STREQUAL "macosx")
 elseif (CMAKE_TARGET_OS STREQUAL "windows")
 	# Unicode by default, Windows Vista minimum required
     add_definitions(-DWINVER=0x0600 -D_WIN32_WINNT=0x0600)
-	if (CMAKE_COMPILER_FAMILY STREQUAL "gcc")
-		set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -municode")
-		set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -municode")
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -municode")
-	elseif (CMAKE_COMPILER_FAMILY STREQUAL "msvc")
-		# Not sure if this is the only stuff needed
-		add_definitions(-DUNICODE -D_UNICODE)
-	endif()
+	add_definitions(-DUNICODE -D_UNICODE)
 elseif (CMAKE_TARGET_OS STREQUAL "qnx")
 	include_directories(AFTER
 		"${QNX_TARGET}/usr/include/freetype2"
