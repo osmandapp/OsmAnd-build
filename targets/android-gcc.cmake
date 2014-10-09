@@ -275,6 +275,8 @@ elseif (CMAKE_TARGET_CPU_ARCH_FAMILY STREQUAL "x86")
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${common_linker_flags}")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${common_linker_flags}")
 endif()
+
+# Finalize settings
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS}" CACHE STRING "ASM compiler flags")
 set(CMAKE_ASM_FLAGS_DEBUG "${CMAKE_ASM_FLAGS_DEBUG}" CACHE STRING "ASM compiler flags (debug)")
 set(CMAKE_ASM_FLAGS_RELEASE "${CMAKE_ASM_FLAGS_RELEASE}" CACHE STRING "ASM compiler flags (release)")
