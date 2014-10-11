@@ -3,7 +3,7 @@
 setlocal
 set SRCLOC=%~dp0
 
-REM By default, 'nmake' is used
+REM By default, 'mingw32-make' is used
 if "%OSMAND_BUILD_TOOL%"=="" (
 	set OSMAND_BUILD_TOOL=mingw32-make
 )
