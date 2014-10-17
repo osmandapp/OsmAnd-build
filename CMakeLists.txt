@@ -170,7 +170,7 @@ endif()
 
 if ((CMAKE_COMPILER_FAMILY STREQUAL "msvc") OR
 	(CMAKE_TARGET_OS STREQUAL "windows" AND CMAKE_COMPILER_FAMILY STREQUAL "gcc"))
-	add_definitions(-D_VARIADIC_MAX=10 -D__STDC_FORMAT_MACROS)
+	add_definitions(-D_VARIADIC_MAX=10)
 endif()
 if (CMAKE_TARGET_OS STREQUAL "windows" AND CMAKE_COMPILER_FAMILY STREQUAL "gcc")
 	add_definitions(-DMINGW_HAS_SECURE_API=1)
@@ -219,8 +219,12 @@ elseif (CMAKE_TARGET_OS STREQUAL "qnx")
 	)
 endif()
 
-# Don't define min and max macros
-add_definitions(-DNOMINMAX)
+# Adjust some global settings:
+# - Don't define min and max macros
+# - Define PRIu64 and etc.
+add_definitions(
+	-DNOMINMAX
+	-D__STDC_FORMAT_MACROS=1)
 
 message("CMAKE_ASM_FLAGS = ${CMAKE_ASM_FLAGS}")
 message("CMAKE_C_FLAGS = ${CMAKE_C_FLAGS}")
