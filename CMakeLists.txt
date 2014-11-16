@@ -211,7 +211,7 @@ if (CMAKE_TARGET_OS STREQUAL "linux")
 elseif (CMAKE_TARGET_OS STREQUAL "macosx")
 elseif (CMAKE_TARGET_OS STREQUAL "windows")
 	# Unicode by default, Windows Vista minimum required
-    add_definitions(-DWINVER=0x0600 -D_WIN32_WINNT=0x0600)
+	add_definitions(-DWINVER=0x0600 -D_WIN32_WINNT=0x0600)
 	add_definitions(-DUNICODE -D_UNICODE)
 elseif (CMAKE_TARGET_OS STREQUAL "qnx")
 	include_directories(AFTER
