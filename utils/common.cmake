@@ -72,7 +72,7 @@ macro(link_entire_static_library TARGET_NAME STATIC_LIBRARY_NAME)
 		)
 	elseif (CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "ios")
 		target_link_libraries(${TARGET_NAME}
-			"-Wl,-force_load,${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/lib${STATIC_LIBRARY_NAME}.a" ${STATIC_LIBRARY_NAME}
+			"-Wl,-force_load,$(CONFIGURATION_BUILD_DIR)/lib${STATIC_LIBRARY_NAME}.a" ${STATIC_LIBRARY_NAME}
 		)
 	elseif (CMAKE_TARGET_OS STREQUAL "windows" AND CMAKE_COMPILER_FAMILY STREQUAL "gcc")
 		target_link_libraries(${TARGET_NAME}
