@@ -14,7 +14,7 @@ cleanupEnvironment()
 		echo "CC was set to '${CC}', unsetting..."
 		unset CC
 	fi
-	
+
 	# CXX
 	if [ -n "$CXX" ]; then
 		echo "CXX was set to '${CXX}', unsetting..."
@@ -29,7 +29,7 @@ cleanUpstream()
 	local externalDir=$1
 	local externalPath="$( cd "$externalDir" && pwd )"
 	local externalName="$(basename "$externalPath")"
-	
+
 	if ls -1 "$externalPath"/upstream.* >/dev/null 2>&1
 	then
 		echo "Cleaning '$externalName'..."
@@ -51,9 +51,9 @@ prepareUpstreamFromGit()
 	local externalName="$(basename "$externalPath")"
 	local gitUrl=$2
 	local gitBranch=$3
-	
+
 	echo "Processing '$externalName' in '$externalPath'..."
-	
+
 	# Check if needs reconfiguring
 	if [ -f "$externalPath/stamp" ]; then
 		echo "Checking '$externalName'..."
@@ -70,7 +70,7 @@ prepareUpstreamFromGit()
 			cp "$externalPath/stamp" "$externalPath/.stamp"
 		fi
 	fi
-	
+
 	# Check if already configured
 	if [ -d "$externalPath/upstream.patched" ]; then
 		echo "Skipping '$externalName': already configured"
@@ -98,9 +98,9 @@ prepareUpstreamFromSvn()
 	local externalPath="$( cd "$externalDir" && pwd )"
 	local externalName="$(basename "$externalPath")"
 	local svnUrl=$2
-	
+
 	echo "Processing '$externalName' in '$externalPath'..."
-	
+
 	# Check if needs reconfiguring
 	if [ -f "$externalPath/stamp" ]; then
 		echo "Checking '$externalName'..."
@@ -117,7 +117,7 @@ prepareUpstreamFromSvn()
 			cp "$externalPath/stamp" "$externalPath/.stamp"
 		fi
 	fi
-	
+
 	# Check if already configured
 	if [ -d "$externalPath/upstream.patched" ]; then
 		echo "Skipping '$externalName': already configured"
@@ -145,9 +145,9 @@ prepareUpstreamFromTarArchive()
 	local externalPath="$( cd "$externalDir" && pwd )"
 	local externalName="$(basename "$externalPath")"
 	local tarUrl=$2
-	
+
 	echo "Processing '$externalName' in '$externalPath'..."
-	
+
 	# Check if needs reconfiguring
 	if [ -f "$externalPath/stamp" ]; then
 		echo "Checking '$externalName'..."
@@ -205,7 +205,7 @@ prepareUpstreamFromZipArchive()
 	local externalPath="$( cd "$externalDir" && pwd )"
 	local externalName="$(basename "$externalPath")"
 	local tarUrl=$2
-	
+
 	echo "Processing '$externalName' in '$externalPath'..."
 
 	# Check if needs reconfiguring
@@ -224,7 +224,7 @@ prepareUpstreamFromZipArchive()
 			cp "$externalPath/stamp" "$externalPath/.stamp"
 		fi
 	fi
-	
+
 	# Check if already configured
 	if [ -d "$externalPath/upstream.patched" ]; then
 		echo "Skipping '$externalName': already configured"
@@ -267,7 +267,7 @@ prepareUpstreamFrom7zArchive()
 	local externalPath="$( cd "$externalDir" && pwd )"
 	local externalName="$(basename "$externalPath")"
 	local tarUrl=$2
-	
+
 	echo "Processing '$externalName' in '$externalPath'..."
 
 	# Check if needs reconfiguring
@@ -286,7 +286,7 @@ prepareUpstreamFrom7zArchive()
 			cp "$externalPath/stamp" "$externalPath/.stamp"
 		fi
 	fi
-	
+
 	# Check if already configured
 	if [ -d "$externalPath/upstream.patched" ]; then
 		echo "Skipping '$externalName': already configured"
@@ -331,7 +331,7 @@ patchUpstream()
 
 	echo "Preparing copy for patching..."
 	cp -rfp "$externalPath/upstream.original" "$externalPath/upstream.patched"
-	
+
 	echo "Looking for '$externalName' patches..."
 	if [ -d "$externalPath/patches" ]; then
 		local patchFiles="$( cd "$externalPath/patches" && ls -1 *.patch | sort)"

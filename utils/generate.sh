@@ -23,7 +23,7 @@ elif [[ -n "$OSMAND_CROSSPLATFORM_TARGET" ]]; then
 else
 	echo "OSMAND_TARGET and OSMAND_CROSSPLATFORM_TARGET is not set - one of them needs to be set"
 	exit 1
-fi 
+fi
 
 # Configure build type
 CMAKE_BUILD_TYPE=""
@@ -100,7 +100,7 @@ mkdir -p "$BAKED_DIR"
 		"$WORK_ROOT")
 retcode=$?
 if [ $retcode -ne 0 ]; then
-	echo "Failed to bake project files '${BAKED_NAME}' with '$retcode'"
+	echo "Failed to bake project files '${BAKED_NAME}' ($retcode)"
 	rm -rf "$BAKED_DIR"
 	exit $retcode
 fi
