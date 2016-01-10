@@ -261,7 +261,7 @@ endif()
 if (CMAKE_TARGET_OS STREQUAL "linux" OR
     CMAKE_TARGET_OS STREQUAL "macosx" OR
     CMAKE_TARGET_OS STREQUAL "windows")
-	if (EXISTS "${OSMAND_ROOT}/tools")
-		include("${OSMAND_ROOT}/tools/tools.cmake")
+	if (EXISTS "${OSMAND_ROOT}/tools/cpp-tools")
+		include("${OSMAND_ROOT}/tools/cpp-tools/tools.cmake")
 	endif()
 endif()
