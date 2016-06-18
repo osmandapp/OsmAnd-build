@@ -1,2 +1,5 @@
 # CLion
 /.idea
+
+# QtCreator
+CMakeLists.txt.user
