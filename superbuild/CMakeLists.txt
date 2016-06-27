@@ -24,7 +24,8 @@ ExternalProject_Add(geographiclib
 # Hint: set  MAKEFLAGS='-j5' variable for faster build on 4 kernels
 ExternalProject_Add(main
 	DOWNLOAD_COMMAND ""
-	BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} ${MAKEFLAGS}
+	BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} ${MAKEFLAGS} OsmAndCore_shared_standalone
+	BUILD_ALWAYS ON
 	INSTALL_COMMAND ""
 	SOURCE_DIR ${PROJECT_SOURCE_DIR}/..
 	DEPENDS geographiclib
