@@ -18,7 +18,7 @@
 +      // Convert 1*2*3 -> 1:2:3, where * — any special symbol
 +      std::map<char, int> chars;
 +      for (char c : internal)
-+          if (!isalnum(c))
++          if (!isalnum(c) && c != ':')
 +              chars[c] = chars[c] + 1;
 +      for (auto const &e : chars)
 +          if (e.second > 1)
