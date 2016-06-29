@@ -88,11 +88,12 @@ fi
 echo "Baking project files '${BAKED_NAME}'"
 BAKED_DIR="${SRCLOC}/../../baked/${BAKED_NAME}"
 if [[ -d "$BAKED_DIR" ]]; then
-	rm -rf "$BAKED_DIR"
+	#rm -rf "$BAKED_DIR"
+    echo "Possibly baked dir $BAKED_DIR needs to be deleted."
 fi
 mkdir -p "$BAKED_DIR"
 (cd "$BAKED_DIR" && \
-	cmake -G "$CMAKE_GENERATOR" \
+	cmake  -G "$CMAKE_GENERATOR" \
 		-DCMAKE_TARGET_BUILD_TOOL:STRING=$TARGET_BUILD_TOOL_SUFFIX \
 		$OSMAND_TARGET_SPECIFICATION \
 		$CMAKE_BUILD_TYPE \
@@ -101,7 +102,7 @@ mkdir -p "$BAKED_DIR"
 retcode=$?
 if [ $retcode -ne 0 ]; then
 	echo "Failed to bake project files '${BAKED_NAME}' ($retcode)"
-	rm -rf "$BAKED_DIR"
+	#rm -rf "$BAKED_DIR"
 	exit $retcode
 fi
 exit 0
