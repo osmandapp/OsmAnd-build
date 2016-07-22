@@ -97,6 +97,24 @@ else()
 				debug ${Qt5Sqld_SHARED_LIBRARY}
 			)
 		endif()
+
+		find_library(qtpcre_SHARED_LIBRARY "qtpcre" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcred_SHARED_LIBRARY "qtpcre_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		set(qtpcre_SHARED_LIBRARIES "")
+		if (qtpcre_SHARED_LIBRARY AND qtpcred_SHARED_LIBRARY)
+			set(qtpcre_SHARED_LIBRARIES ${qtpcre_SHARED_LIBRARIES}
+				optimized ${qtpcre_SHARED_LIBRARY}
+			)
+		else()
+			set(qtpcre_SHARED_LIBRARIES ${qtpcre_SHARED_LIBRARIES}
+				${qtpcre_SHARED_LIBRARY}
+			)
+		endif()
+		if (qtpcred_SHARED_LIBRARY)
+			set(qtpcre_SHARED_LIBRARIES ${qtpcre_SHARED_LIBRARIES}
+				debug ${qtpcred_SHARED_LIBRARY}
+			)
+		endif()
 	endif()
 
 	# If static libs are allowed, they need static Qt
@@ -164,6 +182,24 @@ else()
 		if (Qt5Sqld_STATIC_LIBRARY)
 			set(Qt5Sql_STATIC_LIBRARIES ${Qt5Sql_STATIC_LIBRARIES}
 				debug ${Qt5Sqld_STATIC_LIBRARY}
+			)
+		endif()
+
+		find_library(qtpcre_STATIC_LIBRARY "qtpcre" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcred_STATIC_LIBRARY "qtpcre_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		set(qtpcre_STATIC_LIBRARIES "")
+		if (qtpcre_STATIC_LIBRARY AND qtpcred_STATIC_LIBRARY)
+			set(qtpcre_STATIC_LIBRARIES ${qtpcre_STATIC_LIBRARIES}
+				optimized ${qtpcre_STATIC_LIBRARY}
+			)
+		else()
+			set(qtpcre_STATIC_LIBRARIES ${qtpcre_STATIC_LIBRARIES}
+				${qtpcre_STATIC_LIBRARY}
+			)
+		endif()
+		if (qtpcred_STATIC_LIBRARY)
+			set(qtpcre_STATIC_LIBRARIES ${qtpcre_STATIC_LIBRARIES}
+				debug ${qtpcred_STATIC_LIBRARY}
 			)
 		endif()
 	endif()
