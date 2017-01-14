@@ -1,2 +1,10 @@
 #!/bin/bash
-OSMAND_BUILD_TOOL=xcode ./x86_64-macosx-clang.sh
+
+if [ -z "$BASH_VERSION" ]; then
+	echo "Invalid shell, re-running using bash..."
+	exec bash "$0" "$@"
+	exit $?
+fi
+SRCLOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+OSMAND_BUILD_TOOL=xcode "$SRCLOC/x86_64-macosx-clang.sh" "$@"
