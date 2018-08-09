@@ -1,4 +1,4 @@
 set(CMAKE_SYSTEM_PROCESSOR x86)
 set(CMAKE_TARGET_CPU_ARCH x86)
 set(CMAKE_TARGET_CPU_ARCH_FAMILY x86)
-include("${CMAKE_CURRENT_LIST_DIR}/android-gcc.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/android-clang.cmake")

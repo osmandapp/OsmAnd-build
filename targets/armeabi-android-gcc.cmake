@@ -1,4 +1,0 @@
-set(CMAKE_SYSTEM_PROCESSOR arm5)
-set(CMAKE_TARGET_CPU_ARCH armeabi)
-set(CMAKE_TARGET_CPU_ARCH_FAMILY arm)
-include("${CMAKE_CURRENT_LIST_DIR}/android-gcc.cmake")

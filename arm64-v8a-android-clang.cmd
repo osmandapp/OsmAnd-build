@@ -8,7 +8,7 @@ if "%OSMAND_BUILD_TOOL%"=="" (
 	set OSMAND_BUILD_TOOL=nmake
 )
 
-set OSMAND_CROSSPLATFORM_TARGET=armeabi-v7a-android-gcc
+set OSMAND_CROSSPLATFORM_TARGET=arm64-v8a-android-clang
 "%SRCLOC%utils\%OSMAND_BUILD_TOOL%.cmd" %*
 
 endlocal

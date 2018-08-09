@@ -3,3 +3,6 @@
 
 # QtCreator
 CMakeLists.txt.user
+
+# Mac
+.DS_Store
