@@ -46,7 +46,7 @@ if (NOT EXISTS "${toolchain_path}")
 endif()
 
 # Check target platform version
-set(platform_version "android-9")
+set(platform_version "android-14")
 set(platform_root "${ANDROID_NDK}/platforms/${platform_version}/arch-${CMAKE_TARGET_CPU_ARCH_FAMILY}")
 if (NOT EXISTS "${platform_root}")
 	message(FATAL_ERROR "Missing platform at ${platform_root}")
