@@ -58,7 +58,7 @@ if (CMAKE_HOST_WIN32)
 	set(exe_host_extension ".exe")
 endif()
 set(toolchain_root "${toolchain_path}")
-
+set(CMAKE_ANDROID_STANDALONE_TOOLCHAIN "${toolchain_root}")
 # Collect paths
 set(system_include_dirs
 	"${platform_root}/usr/include"
