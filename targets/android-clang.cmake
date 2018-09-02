@@ -24,15 +24,18 @@ set(toolchain_prefix "")
 set(toolchain_name "")
 set(toolchain_lib_subpath "")
 if (CMAKE_TARGET_CPU_ARCH STREQUAL "armeabi-v7a")
+	set(platform_version "android-14")
 	set(toolchain_prefix "arm-linux-androideabi")
 	set(toolchain_name "arm-linux-androideabi")
 	if (CMAKE_TARGET_CPU_ARCH STREQUAL "armeabi-v7a")
 		set(toolchain_lib_subpath "/armv7-a")
 	endif()
 elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "arm64-v8a")
+	set(platform_version "android-21")
 	set(toolchain_prefix "aarch64-linux-android")
 	set(toolchain_name "aarch64-linux-android")
 elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "x86")
+	set(platform_version "android-14")
 	set(toolchain_prefix "i686-linux-android")
 	set(toolchain_name "x86")
 else()
@@ -46,7 +49,6 @@ if (NOT EXISTS "${toolchain_path}")
 endif()
 
 # Check target platform version
-set(platform_version "android-21")
 set(platform_root "${ANDROID_NDK}/platforms/${platform_version}/arch-${CMAKE_TARGET_CPU_ARCH_FAMILY}")
 if (NOT EXISTS "${platform_root}")
 	message(FATAL_ERROR "Missing platform at ${platform_root}")
@@ -54,23 +56,52 @@ endif()
 
 # Determine NDK host platform
 set(exe_host_extension "")
-if (CMAKE_HOST_WIN32)
+set(ndk_host_platform "")
+if (CMAKE_HOST_APPLE)
+	if (EXISTS "${toolchain_path}/prebuilt/darwin-x86_64")
+		set(ndk_host_platform "darwin-x86_64")
+	elseif (EXISTS "${toolchain_path}/prebuilt/darwin-x86")
+		set(ndk_host_platform "darwin-x86")
+	elseif (EXISTS "${toolchain_path}/prebuilt/darwin")
+		set(ndk_host_platform "darwin")
+	endif()
+elseif (CMAKE_HOST_WIN32)
+	if (EXISTS "${toolchain_path}/prebuilt/windows-x86_64")
+		set(ndk_host_platform "windows-x86_64")
+	elseif (EXISTS "${toolchain_path}/prebuilt/windows-x86")
+		set(ndk_host_platform "windows-x86")
+	elseif (EXISTS "${toolchain_path}/prebuilt/windows")
+		set(ndk_host_platform "windows")
+	endif()
 	set(exe_host_extension ".exe")
+elseif(CMAKE_HOST_UNIX)
+	if (EXISTS "${toolchain_path}/prebuilt/linux-x86_64")
+		set(ndk_host_platform "linux-x86_64")
+	elseif (EXISTS "${toolchain_path}/prebuilt/linux-x86")
+		set(ndk_host_platform "linux-x86")
+	elseif (EXISTS "${toolchain_path}/prebuilt/linux")
+		set(ndk_host_platform "linux")
+	endif()
 endif()
-set(toolchain_root "${toolchain_path}")
+if (ndk_host_platform STREQUAL "")
+	message(FATAL_ERROR "Unsupported NDK host platform")
+endif()
+set(toolchain_root "${toolchain_path}/prebuilt/${ndk_host_platform}")
 set(CMAKE_ANDROID_STANDALONE_TOOLCHAIN "${toolchain_root}")
 # Collect paths
-set(system_include_dirs
-	"${platform_root}/usr/include"
-	"${ANDROID_NDK}/sources/android/support/include"
-	"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/include"
-#	"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${CMAKE_TARGET_CPU_ARCH}/include"
-)
-set(system_lib_dirs
-	"${platform_root}/usr/lib"
-	"${toolchain_root}/${toolchain_prefix}/lib${toolchain_lib_subpath}"
-	"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${CMAKE_TARGET_CPU_ARCH}"
-)
+#set(system_include_dirs
+#	"${ANDROID_NDK}/sources/android/support/include"
+#	"${toolchain_root}/sysroot/usr/include"
+#)
+	#"${platform_root}/usr/include"
+	#"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/include"
+	#"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${CMAKE_TARGET_CPU_ARCH}/include"
+
+#set(system_lib_dirs
+#	"${platform_root}/usr/lib"
+#	"${toolchain_root}/${toolchain_prefix}/lib/${toolchain_lib_subpath}"
+#)
+	#"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${CMAKE_TARGET_CPU_ARCH}"
 
 # Configure compilers and tools
 set(CMAKE_C_COMPILER "${toolchain_root}/bin/${toolchain_prefix}-clang${exe_host_extension}")
@@ -85,12 +116,12 @@ set(CMAKE_OBJDUMP "${toolchain_root}/bin/${toolchain_prefix}-objdump${exe_host_e
 set(CMAKE_RANLIB "${toolchain_root}/bin/${toolchain_prefix}-ranlib${exe_host_extension}" CACHE FILEPATH "ranlib")
 
 # Configure flags
-set(CMAKE_ASM_FLAGS "--sysroot=${platform_root}")
-set(CMAKE_C_FLAGS "--sysroot=${platform_root}")
-set(CMAKE_CXX_FLAGS "--sysroot=${platform_root}")
-set(CMAKE_EXE_LINKER_FLAGS "--sysroot=${platform_root}")
-set(CMAKE_MODULE_LINKER_FLAGS "--sysroot=${platform_root}")
-set(CMAKE_SHARED_LINKER_FLAGS "--sysroot=${platform_root}")
+#set(CMAKE_ASM_FLAGS "--sysroot=${platform_root}")
+#set(CMAKE_C_FLAGS "--sysroot=${platform_root}")
+#set(CMAKE_CXX_FLAGS "--sysroot=${platform_root}")
+#set(CMAKE_EXE_LINKER_FLAGS "--sysroot=${platform_root}")
+#set(CMAKE_MODULE_LINKER_FLAGS "--sysroot=${platform_root}")
+#set(CMAKE_SHARED_LINKER_FLAGS "--sysroot=${platform_root}")
 set(CMAKE_STATIC_LINKER_FLAGS "")
 
 set(CMAKE_ASM_FLAGS_RELEASE "-O3")
@@ -159,7 +190,7 @@ if (CMAKE_TARGET_CPU_ARCH_FAMILY STREQUAL "arm")
 elseif (CMAKE_TARGET_CPU_ARCH_FAMILY STREQUAL "arm64")
 	set(common_compiler_flags "")
 	if (CMAKE_TARGET_CPU_ARCH STREQUAL "arm64-v8a")
-		set(common_compiler_flags "${common_compiler_flags} -march=aarch64")
+		set(common_compiler_flags "${common_compiler_flags} -march=armv8-a")
 		set(common_compiler_flags "${common_compiler_flags} -mfpu=vfpv3-d16")
 		set(common_compiler_flags "${common_compiler_flags} -mfloat-abi=softfp")
 	endif()
@@ -195,9 +226,6 @@ elseif (CMAKE_TARGET_CPU_ARCH_FAMILY STREQUAL "arm64")
 
 	set(common_linker_flags "")
 	set(common_linker_flags "${common_linker_flags} -no-canonical-prefixes")
-	if (CMAKE_TARGET_CPU_ARCH STREQUAL "arm64-v8a")
-		set(common_linker_flags "${common_linker_flags} -march=aarch64")
-	endif()
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${common_linker_flags}")
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${common_linker_flags}")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${common_linker_flags}")
@@ -267,10 +295,10 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}" CACHE STRING "Share
 set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS}" CACHE STRING "Static linker flags")
 
 # Configure search paths
-include_directories(SYSTEM ${system_include_dirs})
-set(CMAKE_SYSTEM_INCLUDE_PATH ${system_include_dirs})
-set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+#include_directories(SYSTEM ${system_include_dirs})
+#set(CMAKE_SYSTEM_INCLUDE_PATH ${system_include_dirs})
+#set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
-link_directories(${system_lib_dirs})
-set(CMAKE_SYSTEM_LIBRARY_PATH ${system_lib_dirs})
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+#link_directories(${system_lib_dirs})
+#set(CMAKE_SYSTEM_LIBRARY_PATH ${system_lib_dirs})
+#set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)

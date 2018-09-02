@@ -101,8 +101,8 @@ else()
 			)
 		endif()
 
-		find_library(qtpcre_SHARED_LIBRARY "qtpcre" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
-		find_library(qtpcred_SHARED_LIBRARY "qtpcre_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcre_SHARED_LIBRARY "qtpcre2" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcred_SHARED_LIBRARY "qtpcre2_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
 		set(qtpcre_SHARED_LIBRARIES "")
 		if (qtpcre_SHARED_LIBRARY AND qtpcred_SHARED_LIBRARY)
 			set(qtpcre_SHARED_LIBRARIES ${qtpcre_SHARED_LIBRARIES}
@@ -188,8 +188,8 @@ else()
 			)
 		endif()
 
-		find_library(qtpcre_STATIC_LIBRARY "qtpcre" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
-		find_library(qtpcred_STATIC_LIBRARY "qtpcre_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcre_STATIC_LIBRARY "qtpcre2" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcred_STATIC_LIBRARY "qtpcre2_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
 		set(qtpcre_STATIC_LIBRARIES "")
 		if (qtpcre_STATIC_LIBRARY AND qtpcred_STATIC_LIBRARY)
 			set(qtpcre_STATIC_LIBRARIES ${qtpcre_STATIC_LIBRARIES}
