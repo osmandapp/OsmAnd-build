@@ -22,7 +22,7 @@ execute_process(COMMAND xcodebuild -sdk iphoneos -find-library system OUTPUT_VAR
 string(STRIP "${_SDK_SYSTEMLIB_PATH}" SDK_SYSTEMLIB_PATH)
 string(REPLACE "/usr/lib/libsystem.dylib" "" SDK_ROOT "${SDK_SYSTEMLIB_PATH}")
 
-set(_common_flags "-isysroot ${SDK_ROOT} -arch armv7 -arch arm64 -stdlib=libc++ -miphoneos-version-min=6.0 -fPIC")
+set(_common_flags "-isysroot ${SDK_ROOT} -arch armv8 -stdlib=libc++ -miphoneos-version-min=10.3 -fPIC")
 set(CMAKE_ASM_FLAGS "${_common_flags}")
 set(CMAKE_C_FLAGS "${_common_flags}")
 set(CMAKE_CXX_FLAGS "${_common_flags}")
