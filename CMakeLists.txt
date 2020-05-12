@@ -42,7 +42,11 @@ else()
 
 	# CMAKE_TARGET_CPU_ARCH
 	if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
-		set(CMAKE_TARGET_CPU_ARCH x86_64)
+        if (CMAKE_TARGET_OS STREQUAL "linux")
+			set(CMAKE_TARGET_CPU_ARCH amd64)
+		else()
+			set(CMAKE_TARGET_CPU_ARCH x86_64)
+		endif()
 	else()
 		message(WARNING "Unrecognized system architecture '${CMAKE_HOST_SYSTEM_PROCESSOR}', defaulting to i686")
 		set(CMAKE_TARGET_CPU_ARCH i686)
