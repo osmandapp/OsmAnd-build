@@ -92,8 +92,10 @@ if [[ -d "$BAKED_DIR" ]]; then
     echo "Possibly baked dir $BAKED_DIR needs to be deleted."
 fi
 mkdir -p "$BAKED_DIR"
+echo "To trace errors with cmake set ENV_VARIABLE OSMAND_CMAKE_EXTRA_OPTS=--trace-expand"
 (cd "$BAKED_DIR" && \
-	cmake  -G "$CMAKE_GENERATOR" \
+	cmake $OSMAND_CMAKE_EXTRA_OPTS -G "$CMAKE_GENERATOR" \
+                -DCMAKE_FRAMEWORK_PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/ \
 		-DCMAKE_TARGET_BUILD_TOOL:STRING=$TARGET_BUILD_TOOL_SUFFIX \
 		$OSMAND_TARGET_SPECIFICATION \
 		$CMAKE_BUILD_TYPE \
