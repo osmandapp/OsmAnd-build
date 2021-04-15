@@ -92,7 +92,7 @@ if [[ -d "$BAKED_DIR" ]]; then
     echo "Possibly baked dir $BAKED_DIR needs to be deleted."
 fi
 mkdir -p "$BAKED_DIR"
-CMAKE_PROGRAM="${CMAKE_PROGRAM:cmake}"
+CMAKE_PROGRAM="${CMAKE_PROGRAM:-cmake}"
 echo "To trace errors with cmake (path $CMAKE_PROGRAM) set ENV_VARIABLE OSMAND_CMAKE_EXTRA_OPTS=--trace-expand"
 (cd "$BAKED_DIR" && \
 	$CMAKE_PROGRAM $OSMAND_CMAKE_EXTRA_OPTS -G "$CMAKE_GENERATOR" \
