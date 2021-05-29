@@ -153,11 +153,12 @@ if (CMAKE_COMPILER_FAMILY STREQUAL "clang")
 endif()
 
 # Strip as much as possible in release builds
-#if (CMAKE_COMPILER_FAMILY STREQUAL "clang")
-#	set(CMAKE_ASM_FLAGS_RELEASE "${CMAKE_ASM_FLAGS_RELEASE} -fdata-sections -ffunction-sections")
-#	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fdata-sections -ffunction-sections")
-#	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fdata-sections -ffunction-sections")
-#endif()
+if ((CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
+	(CMAKE_TARGET_OS STREQUAL "ios"))
+	set(CMAKE_ASM_FLAGS_RELEASE "${CMAKE_ASM_FLAGS_RELEASE} -fembed-bitcode")
+	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fembed-bitcode")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fembed-bitcode")
+endif()
 if ((CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
 	(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "android"))
 	set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} -Wl,--gc-sections -Wl,-S")
