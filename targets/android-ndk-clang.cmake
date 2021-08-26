@@ -14,3 +14,5 @@ set(CMAKE_COMPILER_FAMILY "clang")
 set(CMAKE_TARGET_OS android)
 
 include("${ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+# unclear why complains about __aeabi_atexit even though it's not used anywhere (ndk r19c)
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--allow-multiple-definition")
