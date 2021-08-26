@@ -1,0 +1,16 @@
+if (NOT DEFINED ENV{ANDROID_NDK})
+	message(FATAL_ERROR "Environment variable ANDROID_NDK is not set")
+endif()
+set(ANDROID_NDK "$ENV{ANDROID_NDK}" CACHE STRING "Android NDK path")
+
+set(TARGET_ARCH ANDROID)
+set(ANDROID_ABI "${CMAKE_TARGET_CPU_ARCH}")
+set(ANDROID_PLATFORM android-21)
+set(ANDROID_TOOLCHAIN clang)
+set(ANDROID_STL c++_static)
+set(CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET TRUE)
+set(CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET TRUE)
+set(CMAKE_COMPILER_FAMILY "clang")
+set(CMAKE_TARGET_OS android)
+
+include("${ANDROID_NDK}/build/cmake/android.toolchain.cmake")
