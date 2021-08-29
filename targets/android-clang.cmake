@@ -1,3 +1,4 @@
+# no longer used didn't compile with ndk 23 / cmake 3.21 (use android-ndk-clang.cmake instead)
 set(CMAKE_SYSTEM_NAME Android)
 set(CMAKE_TARGET_OS android)
 set(CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET TRUE)
@@ -19,39 +20,26 @@ if (CMAKE_HOST_WIN32)
 	string(REGEX REPLACE "\\\\" "/" ANDROID_NDK ${ANDROID_NDK}) 
 endif()
 
+
 # Determine toolchain prefix
 set(toolchain_prefix "")
-set(toolchain_name "")
-set(toolchain_lib_subpath "")
+set(platform_version "android-21")
 if (CMAKE_TARGET_CPU_ARCH STREQUAL "armeabi-v7a")
-	set(platform_version "android-14")
 	set(toolchain_prefix "arm-linux-androideabi")
-	set(toolchain_name "arm-linux-androideabi")
-	if (CMAKE_TARGET_CPU_ARCH STREQUAL "armeabi-v7a")
-		set(toolchain_lib_subpath "/armv7-a")
-	endif()
 elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "arm64-v8a")
-	set(platform_version "android-21")
 	set(toolchain_prefix "aarch64-linux-android")
-	set(toolchain_name "aarch64-linux-android")
 elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "x86")
-	set(platform_version "android-14")
 	set(toolchain_prefix "i686-linux-android")
-	set(toolchain_name "x86")
+elseif (CMAKE_TARGET_CPU_ARCH STREQUAL "x86-64")
+	set(toolchain_prefix "x86_64-linux-android")
 else()
 	message(FATAL_ERROR "Unsupported target architecture '${CMAKE_TARGET_CPU_ARCH}'")
 endif()
-set(toolchain_version "clang")
-set(toolchain_full_name "${toolchain_name}-${toolchain_version}")
+
+set(toolchain_full_name "llvm")
 set(toolchain_path "${ANDROID_NDK}/toolchains/${toolchain_full_name}")
 if (NOT EXISTS "${toolchain_path}")
 	message(FATAL_ERROR "Missing ${toolchain_full_name} toolchain at ${toolchain_path}")
-endif()
-
-# Check target platform version
-set(platform_root "${ANDROID_NDK}/platforms/${platform_version}/arch-${CMAKE_TARGET_CPU_ARCH_FAMILY}")
-if (NOT EXISTS "${platform_root}")
-	message(FATAL_ERROR "Missing platform at ${platform_root}")
 endif()
 
 # Determine NDK host platform
@@ -87,33 +75,16 @@ if (ndk_host_platform STREQUAL "")
 	message(FATAL_ERROR "Unsupported NDK host platform")
 endif()
 set(toolchain_root "${toolchain_path}/prebuilt/${ndk_host_platform}")
-set(CMAKE_ANDROID_STANDALONE_TOOLCHAIN "${toolchain_root}")
-# Collect paths
-#set(system_include_dirs
-#	"${ANDROID_NDK}/sources/android/support/include"
-#	"${toolchain_root}/sysroot/usr/include"
-#)
-	#"${platform_root}/usr/include"
-	#"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/include"
-	#"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${CMAKE_TARGET_CPU_ARCH}/include"
 
-#set(system_lib_dirs
-#	"${platform_root}/usr/lib"
-#	"${toolchain_root}/${toolchain_prefix}/lib/${toolchain_lib_subpath}"
-#)
-	#"${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${CMAKE_TARGET_CPU_ARCH}"
+# set(CMAKE_TOOLCHAIN_FILE "${ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+# set(CMAKE_ANDROID_NDK "${ANDROID_NDK}")
+# set(CMAKE_ANDROID_STANDALONE_TOOLCHAIN "${toolchain_root}")
 
-# Configure compilers and tools
-set(CMAKE_C_COMPILER "${toolchain_root}/bin/${toolchain_prefix}-clang${exe_host_extension}")
-set(CMAKE_CXX_COMPILER "${toolchain_root}/bin/${toolchain_prefix}-clang++${exe_host_extension}")
-set(CMAKE_ASM_COMPILER "${toolchain_root}/bin/${toolchain_prefix}-clang${exe_host_extension}")
-set(CMAKE_STRIP "${toolchain_root}/bin/${toolchain_prefix}-strip${exe_host_extension}" CACHE FILEPATH "strip")
-set(CMAKE_AR "${toolchain_root}/bin/${toolchain_prefix}-ar${exe_host_extension}" CACHE FILEPATH "ar")
-set(CMAKE_LINKER "${toolchain_root}/bin/${toolchain_prefix}-ld${exe_host_extension}" CACHE FILEPATH "ld")
-set(CMAKE_NM "${toolchain_root}/bin/${toolchain_prefix}-nm${exe_host_extension}" CACHE FILEPATH "nm")
-set(CMAKE_OBJCOPY "${toolchain_root}/bin/${toolchain_prefix}-objcopy${exe_host_extension}" CACHE FILEPATH "objcopy")
-set(CMAKE_OBJDUMP "${toolchain_root}/bin/${toolchain_prefix}-objdump${exe_host_extension}" CACHE FILEPATH "objdump")
-set(CMAKE_RANLIB "${toolchain_root}/bin/${toolchain_prefix}-ranlib${exe_host_extension}" CACHE FILEPATH "ranlib")
+# set(CMAKE_SYSTEM_VERSION 21)
+# set(CMAKE_ANDROID_NDK_TOOLCHAIN_VERSION "clang")
+# set(CMAKE_ANDROID_ARCH_ABI "${CMAKE_TARGET_CPU_ARCH}")
+# set(CMAKE_ANDROID_STL_TYPE c++_static) #c++_static
+# set(ANDROID_STL c++_static)
 
 # Configure flags
 #set(CMAKE_ASM_FLAGS "--sysroot=${platform_root}")
