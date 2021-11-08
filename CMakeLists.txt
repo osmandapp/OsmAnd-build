@@ -47,16 +47,16 @@ else()
 		message(WARNING "Unrecognized system architecture '${CMAKE_HOST_SYSTEM_PROCESSOR}', defaulting to i686")
 		set(CMAKE_TARGET_CPU_ARCH i686)
 	endif()
-	
+
 	# CMAKE_TARGET_CPU_ARCH_FAMILY
 	set(CMAKE_TARGET_CPU_ARCH_FAMILY x86)
-	
+
 	# CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET and CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET are probably true
 	set(CMAKE_SHARED_LIBS_ALLOWED_ON_TARGET ON)
 	set(CMAKE_STATIC_LIBS_ALLOWED_ON_TARGET ON)
 
 	# CMAKE_COMPILER_FAMILY from CMAKE_CXX_COMPILER_ID
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
 		set(CMAKE_COMPILER_FAMILY clang)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 		set(CMAKE_COMPILER_FAMILY msvc)
@@ -76,7 +76,7 @@ else()
                 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
 	        endif()
         endif()
-		
+
 		if (CMAKE_TARGET_OS STREQUAL "windows")
 			set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -mdll -static-libgcc -static-libstdc++")
 			set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
@@ -114,7 +114,7 @@ enable_language(C)
 enable_language(CXX)
 enable_language(ASM OPTIONAL)
 
-# For gcc and clang family, use C++11 
+# For gcc and clang family, use C++11
 if (CMAKE_COMPILER_FAMILY STREQUAL "clang")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
