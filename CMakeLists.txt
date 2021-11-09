@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.21.2 FATAL_ERROR)
 
 # Set the global project name
 project("OsmAnd_projects")
