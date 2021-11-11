@@ -237,6 +237,11 @@ if (CMAKE_TARGET_BUILD_TOOL STREQUAL "xcode")
 	set(CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH[variant=Debug] "YES")
 endif()
 
+# Ensure PIE and dynamic export
+cmake_policy(SET CMP0083 NEW)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_ENABLE_EXPORTS ON)
+
 # Adjust some global settings:
 # - Don't define min and max macros
 # - Define PRIu64 and etc.
