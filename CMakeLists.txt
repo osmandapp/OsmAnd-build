@@ -122,10 +122,8 @@ enable_language(C)
 enable_language(CXX)
 enable_language(ASM OPTIONAL)
 
-# For gcc and clang family, use C++11
-if (CMAKE_COMPILER_FAMILY STREQUAL "clang")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
+# Configure C++ language
+set(CMAKE_CXX_STANDARD 17)
 
 # For gcc and clang family, ensure that there are no undefined symbols
 if ((CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
