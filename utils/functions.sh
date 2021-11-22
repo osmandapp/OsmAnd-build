@@ -43,14 +43,14 @@ cleanUpstream()
 }
 export -f cleanUpstream
 
-# Function: prepareUpstreamFromGit(location, url, branch)
+# Function: prepareUpstreamFromGit(location, url, ref)
 prepareUpstreamFromGit()
 {
 	local externalDir=$1
 	local externalPath="$(cd "$externalDir" && pwd)"
 	local externalName="$(basename "$externalPath")"
 	local gitUrl=$2
-	local gitBranch=$3
+	local gitRef=$3
 
 	echo "Processing '$externalName' in '$externalPath'..."
 
@@ -79,8 +79,13 @@ prepareUpstreamFromGit()
 
 	# If there's no original, obtain it
 	if [ ! -d "$externalPath/upstream.original" ]; then
-		echo "Downloading '$externalName' upstream from $gitUrl [branch $gitBranch] ..."
-		git clone $gitUrl "$externalPath/upstream.original" -b $gitBranch --depth=1
+		echo "Downloading '$externalName' upstream from $gitUrl [$gitRef] ..."
+		(mkdir -p "$externalPath/upstream.original" && cd "$externalPath/upstream.original" \
+			&& git init \
+			&& git remote add origin "$gitUrl" \
+			&& git fetch --depth=1 origin "$gitRef" \
+			&& git checkout FETCH_HEAD \
+		)
 		retcode=$?
 		if [ $retcode -ne 0 ]; then
 			echo "Failed to download '$externalName' upstream, aborting..."
