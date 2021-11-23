@@ -124,6 +124,10 @@ enable_language(ASM OPTIONAL)
 
 # Configure C++ language
 set(CMAKE_CXX_STANDARD 17)
+if (CMAKE_TARGET_BUILD_TOOL STREQUAL "xcode")
+	# NOTE: Workaround https://gitlab.kitware.com/cmake/cmake/-/issues/19713
+	set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++17")
+endif()
 
 # For gcc and clang family, ensure that there are no undefined symbols
 if ((CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
