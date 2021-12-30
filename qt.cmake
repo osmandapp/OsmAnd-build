@@ -29,6 +29,12 @@ else()
 		message(FATAL_ERROR "Failed to determine Qt flavour")
 	endif()
 
+	# Debug suffix
+	set(QT_DEBUG_SUFFIX "d")
+	if (CMAKE_TARGET_OS STREQUAL "macosx" OR CMAKE_TARGET_OS STREQUAL "ios")
+		set(QT_DEBUG_SUFFIX "_debug")
+	endif()
+
 	# Since Qt is also an upstream, configure it and build
 	prepare_upstream_ex("${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}" QT_WAS_CONFIGURED)
 	build_upstream_ex("${OSMAND_ROOT}/core/externals/qtbase-${OSMAND_QT_FLAVOUR}")
@@ -48,7 +54,7 @@ else()
 		endif()
 
 		find_library(Qt5Core_SHARED_LIBRARY "Qt5Core" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
-		find_library(Qt5Cored_SHARED_LIBRARY "Qt5Cored" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		find_library(Qt5Cored_SHARED_LIBRARY "Qt5Core${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
 		set(Qt5Core_SHARED_LIBRARIES "")
 		if (Qt5Core_SHARED_LIBRARY AND Qt5Cored_SHARED_LIBRARY)
 			set(Qt5Core_SHARED_LIBRARIES ${Qt5Core_SHARED_LIBRARIES}
@@ -66,7 +72,7 @@ else()
 		endif()
 
 		find_library(Qt5Network_SHARED_LIBRARY "Qt5Network" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
-		find_library(Qt5Networkd_SHARED_LIBRARY "Qt5Networkd" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		find_library(Qt5Networkd_SHARED_LIBRARY "Qt5Network${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
 		set(Qt5Network_SHARED_LIBRARIES "")
 		if (Qt5Network_SHARED_LIBRARY AND Qt5Networkd_SHARED_LIBRARY)
 			set(Qt5Network_SHARED_LIBRARIES ${Qt5Network_SHARED_LIBRARIES}
@@ -83,31 +89,13 @@ else()
 			)
 		endif()
 
-		find_library(Qt5Sql_SHARED_LIBRARY "Qt5Sql" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
-		find_library(Qt5Sqld_SHARED_LIBRARY "Qt5Sqld" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
-		set(Qt5Sql_SHARED_LIBRARIES "")
-		if (Qt5Sql_SHARED_LIBRARY AND Qt5Sqld_SHARED_LIBRARY)
-			set(Qt5Sql_SHARED_LIBRARIES ${Qt5Sql_SHARED_LIBRARIES}
-				optimized ${Qt5Sql_SHARED_LIBRARY}
-			)
-		else()
-			set(Qt5Sql_SHARED_LIBRARIES ${Qt5Sql_SHARED_LIBRARIES}
-				${Qt5Sql_SHARED_LIBRARY}
-			)
-		endif()
-		if (Qt5Sqld_SHARED_LIBRARY)
-			set(Qt5Sql_SHARED_LIBRARIES ${Qt5Sql_SHARED_LIBRARIES}
-				debug ${Qt5Sqld_SHARED_LIBRARY}
-			)
-		endif()
-
 		find_library(qtpcre_SHARED_LIBRARY "qtpcre2" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
 		if (NOT qtpcre_SHARED_LIBRARY)
 			find_library(qtpcre_SHARED_LIBRARY "qtpcre" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
 		endif()
-		find_library(qtpcred_SHARED_LIBRARY "qtpcre2_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcred_SHARED_LIBRARY "qtpcre2${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
 		if (NOT qtpcred_SHARED_LIBRARY)
-			find_library(qtpcred_SHARED_LIBRARY "qtpcre_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
+			find_library(qtpcred_SHARED_LIBRARY "qtpcre${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_SHARED}/lib" NO_DEFAULT_PATH)
 		endif()
 		set(qtpcre_SHARED_LIBRARIES "")
 		if (qtpcre_SHARED_LIBRARY AND qtpcred_SHARED_LIBRARY)
@@ -141,7 +129,7 @@ else()
 		endif()
 
 		find_library(Qt5Core_STATIC_LIBRARY "Qt5Core" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
-		find_library(Qt5Cored_STATIC_LIBRARY "Qt5Cored" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
+		find_library(Qt5Cored_STATIC_LIBRARY "Qt5Core${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
 		set(Qt5Core_STATIC_LIBRARIES "")
 		if (Qt5Core_STATIC_LIBRARY AND Qt5Cored_STATIC_LIBRARY)
 			set(Qt5Core_STATIC_LIBRARIES ${Qt5Core_STATIC_LIBRARIES}
@@ -159,7 +147,7 @@ else()
 		endif()
 
 		find_library(Qt5Network_STATIC_LIBRARY "Qt5Network" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
-		find_library(Qt5Networkd_STATIC_LIBRARY "Qt5Networkd" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
+		find_library(Qt5Networkd_STATIC_LIBRARY "Qt5Network${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
 		set(Qt5Network_STATIC_LIBRARIES "")
 		if (Qt5Network_STATIC_LIBRARY AND Qt5Networkd_STATIC_LIBRARY)
 			set(Qt5Network_STATIC_LIBRARIES ${Qt5Network_STATIC_LIBRARIES}
@@ -176,31 +164,13 @@ else()
 			)
 		endif()
 
-		find_library(Qt5Sql_STATIC_LIBRARY "Qt5Sql" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
-		find_library(Qt5Sqld_STATIC_LIBRARY "Qt5Sqld" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
-		set(Qt5Sql_STATIC_LIBRARIES "")
-		if (Qt5Sql_STATIC_LIBRARY AND Qt5Sqld_STATIC_LIBRARY)
-			set(Qt5Sql_STATIC_LIBRARIES ${Qt5Sql_STATIC_LIBRARIES}
-				optimized ${Qt5Sql_STATIC_LIBRARY}
-			)
-		else()
-			set(Qt5Sql_STATIC_LIBRARIES ${Qt5Sql_STATIC_LIBRARIES}
-				${Qt5Sql_STATIC_LIBRARY}
-			)
-		endif()
-		if (Qt5Sqld_STATIC_LIBRARY)
-			set(Qt5Sql_STATIC_LIBRARIES ${Qt5Sql_STATIC_LIBRARIES}
-				debug ${Qt5Sqld_STATIC_LIBRARY}
-			)
-		endif()
-
 		find_library(qtpcre_STATIC_LIBRARY "qtpcre2" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
 		if (NOT qtpcre_STATIC_LIBRARY)
 			find_library(qtpcre_STATIC_LIBRARY "qtpcre" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
 		endif()
-		find_library(qtpcred_STATIC_LIBRARY "qtpcre2_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
+		find_library(qtpcred_STATIC_LIBRARY "qtpcre2${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
 		if (NOT qtpcred_STATIC_LIBRARY)
-			find_library(qtpcred_STATIC_LIBRARY "qtpcre_debug" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
+			find_library(qtpcred_STATIC_LIBRARY "qtpcre${QT_DEBUG_SUFFIX}" PATHS "${OSMAND_OWN_SHIPPED_QT_STATIC}/lib" NO_DEFAULT_PATH)
 		endif()
 		set(qtpcre_STATIC_LIBRARIES "")
 		if (qtpcre_STATIC_LIBRARY AND qtpcred_STATIC_LIBRARY)
