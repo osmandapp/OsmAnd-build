@@ -11,7 +11,7 @@ set(CMAKE_SHARED_LINKER_FLAGS "-stdlib=libc++ -fPIC")
 set(CMAKE_MODULE_LINKER_FLAGS "-stdlib=libc++ -fPIC")
 set(CMAKE_EXE_LINKER_FLAGS "-stdlib=libc++ -fPIC")
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
-set(CMAKE_OSX_DEPLOYMENT_TARGET "11.3")
+set(CMAKE_OSX_DEPLOYMENT_TARGET "12.1")
 
 # Finalize settings
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS}" CACHE STRING "ASM compiler flags")
