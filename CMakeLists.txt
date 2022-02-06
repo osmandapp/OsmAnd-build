@@ -68,7 +68,6 @@ else()
 
 	# Additional settings
 	if (CMAKE_COMPILER_FAMILY STREQUAL "clang")
-
 	    if (CMAKE_TARGET_OS STREQUAL "linux" OR
 	        CMAKE_TARGET_OS STREQUAL "windows" OR
 	        CMAKE_TARGET_OS STREQUAL "cygwin")
@@ -83,7 +82,10 @@ else()
 			set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -mdll -static-libgcc -static-libstdc++")
 			set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 			set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mconsole -static-libgcc -static-libstdc++")
-        endif()
+		endif()
+	endif()
+	if (CMAKE_TARGET_OS STREQUAL "macosx")
+		set(CMAKE_OSX_DEPLOYMENT_TARGET "12.1")
 	endif()
 endif()
 message("CMAKE_TARGET_OS = ${CMAKE_TARGET_OS}")
