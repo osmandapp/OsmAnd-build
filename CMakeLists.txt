@@ -169,9 +169,8 @@ endif()
 # Strip as much as possible in release builds
 if ((CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
 	(CMAKE_TARGET_OS STREQUAL "ios"))
-	set(CMAKE_ASM_FLAGS_RELEASE "${CMAKE_ASM_FLAGS_RELEASE} -fembed-bitcode")
-	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fembed-bitcode")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fembed-bitcode")
+	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fembed")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fembed")
 endif()
 if ((CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
 	(CMAKE_TARGET_OS STREQUAL "linux" OR CMAKE_TARGET_OS STREQUAL "android"))
