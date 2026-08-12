@@ -185,6 +185,29 @@ if ((OR CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
 	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -Wl,-dead_strip")
 endif()
 
+# Use ThinLTO in release builds. Cross-translation-unit inlining matters a lot
+# for the renderer, where the hot loops are spread over many small files.
+# Enabled by default only where it was verified (Android, NDK r26+ / clang 17+):
+# with clang 14 the resulting library crashed on startup. Override with
+# -DOSMAND_ENABLE_LTO:BOOL=ON/OFF.
+if (NOT DEFINED OSMAND_ENABLE_LTO)
+	if ((CMAKE_COMPILER_FAMILY STREQUAL "clang") AND
+		(CMAKE_TARGET_OS STREQUAL "android") AND
+		(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "17"))
+		set(OSMAND_ENABLE_LTO ON)
+	else()
+		set(OSMAND_ENABLE_LTO OFF)
+	endif()
+endif()
+message("OSMAND_ENABLE_LTO = ${OSMAND_ENABLE_LTO}")
+if (OSMAND_ENABLE_LTO)
+	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -flto=thin")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto=thin")
+	set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} -flto=thin")
+	set(CMAKE_MODULE_LINKER_FLAGS_RELEASE "${CMAKE_MODULE_LINKER_FLAGS_RELEASE} -flto=thin")
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -flto=thin")
+endif()
+
 if ((CMAKE_COMPILER_FAMILY STREQUAL "msvc") OR
 	(CMAKE_TARGET_OS STREQUAL "windows"))
 	add_definitions(-D_VARIADIC_MAX=10)
